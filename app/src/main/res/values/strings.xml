@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EinkaufslisteApp</string>
+    <string name="title">Einkaufsliste</string>
+    <string name="button_start_menu">Liste verwalten</string>
+    <string name="button_add_list">Liste hinzufügen</string>
+    <string name="name_list">Liste 1</string>
+
+</resources>
