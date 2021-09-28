@@ -1,6 +1,5 @@
 package com.example.einkaufslisteapp;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -9,11 +8,15 @@ import managerlists.EinkaufsListe;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import managerlists.ManagerList;
+import ressourcelists.ShoppingListDatabase;
 
 public class ListCreationActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
-    public EinkaufsListe einkaufsListe = new EinkaufsListe();;
+    public EinkaufsListe einkaufsListe = new EinkaufsListe();
+    private ShoppingListDatabase shoppingListDatabase = new ShoppingListDatabase();
+    private ManagerList managerList = new ManagerList(shoppingListDatabase);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
