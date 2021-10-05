@@ -11,19 +11,22 @@ import android.os.Bundle;
 import managerlists.ManagerList;
 import ressourcelists.ShoppingListDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListCreationActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
     public EinkaufsListe einkaufsListe = new EinkaufsListe();
     private ShoppingListDatabase shoppingListDatabase = new ShoppingListDatabase();
     private ManagerList managerList = new ManagerList(shoppingListDatabase);
+    private Button saveListButton;
+    private int[] itemsIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
-
-        addItem();
 
     }
 
@@ -31,7 +34,7 @@ public class ListCreationActivity extends AppCompatActivity {
 
 
 //        Intent intent = new Intent(this, ListCreationActivity.class);
-        EditText editText = (EditText) findViewById(R.id.listTitle1);
+        EditText editText = (EditText) findViewById(R.id.listTitle);
         String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
 //        startActivity(intent);
@@ -63,6 +66,27 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private void modifyItem() {
 
+    }
+
+    private List<String> saveItemsToList() {
+        List<String> items = new ArrayList<>();
+
+        for(int id : itemsIds){
+            EditText editText = (EditText) findViewById(id);
+            String item = editText.getText().toString();
+            items.add(item);
+        }
+
+        return items;
+    }
+
+    private void safeList() {
+        EditText editText = (EditText) findViewById(R.id.listTitle);
+        String title = editText.getText().toString();
+        saveListButton = new Button(this);
+        saveListButton = findViewById(R.id.saveListButton);
+        saveListButton.setOnClickListener(v ->
+                managerList.saveToJson(title, saveItemsToList()));
     }
 
 }
