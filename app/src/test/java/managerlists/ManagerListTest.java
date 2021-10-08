@@ -5,14 +5,12 @@ import org.json.JSONException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.skyscreamer.jsonassert.JSONAssert;
 import ressourcelists.ShoppingListDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class ManagerListTest {
@@ -38,7 +36,7 @@ class ManagerListTest {
 
     @Test
     public void getJsonContentTest() throws JSONException {
-        shoppingListDatabase.saveToJson(listName, items);
+        shoppingListDatabase.saveListToJson(listName, items);
 
         JSONArray actual = managerList.getJsonContent();
 

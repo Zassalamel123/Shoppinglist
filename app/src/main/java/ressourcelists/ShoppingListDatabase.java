@@ -16,7 +16,7 @@ public class ShoppingListDatabase {
         jsonCollection = new JSONArray();
     }
 
-    public void saveToJson(String listName, List<String> items) {
+    public void saveListToJson(String listName, List<String> items) {
 
         JSONObject jsonObjectList = new JSONObject();
         JSONObject jsonObjectItems = new JSONObject();
@@ -38,7 +38,9 @@ public class ShoppingListDatabase {
 
     private void writeJsonToFile(JSONArray jsonArray, String filePath) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
+
             bufferedWriter.append(jsonArray.toString(4));
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
@@ -46,12 +48,15 @@ public class ShoppingListDatabase {
 
     private String readJsonFile(String filePath) throws Exception {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();
+
             while (line != null) {
                 stringBuilder.append(line).append("\n");
                 line = bufferedReader.readLine();
             }
+
             return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();

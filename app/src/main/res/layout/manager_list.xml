@@ -11,12 +11,12 @@
             android:id="@+id/createListButton" android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/textList1"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/shoppingList1"
             android:layout_marginStart="16dp" app:layout_constraintHorizontal_bias="0.5"/>
     <TextView
             android:text="@string/name_list"
             android:layout_width="307dp"
-            android:layout_height="46dp" android:id="@+id/textList1"
+            android:layout_height="46dp" android:id="@+id/shoppingList1"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp" app:layout_constraintHorizontal_bias="0.5"

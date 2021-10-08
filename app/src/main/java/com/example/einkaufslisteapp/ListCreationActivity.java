@@ -18,19 +18,19 @@ public class ListCreationActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
     public EinkaufsListe einkaufsListe = new EinkaufsListe();
-    private ShoppingListDatabase shoppingListDatabase = new ShoppingListDatabase();
-    private ManagerList managerList = new ManagerList(shoppingListDatabase);
-    private Button saveListButton;
-    private int[] itemsIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
+    private final ManagerList managerList = new ManagerList(new ShoppingListDatabase());
+    private final int[] itemsIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
 
+        saveShoppingList();
+
     }
 
-    private void nameTitle() {
+    private void getTitleListFromPreviousActivity() {
 
 
 //        Intent intent = new Intent(this, ListCreationActivity.class);
@@ -45,18 +45,18 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private void addItem() {
 
-        ConstraintLayout mLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
-        Button mButton = (Button) findViewById(R.id.button);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText editText = new EditText(ListCreationActivity.this);
-                editText.setLayoutParams(new
-                        ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        ConstraintLayout.LayoutParams.WRAP_CONTENT));
-                mLayout.addView(editText);
-            }
-        });
+//        ConstraintLayout mLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
+//        Button mButton = (Button) findViewById(R.id.button);
+//        mButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EditText editText = new EditText(ListCreationActivity.this);
+//                editText.setLayoutParams(new
+//                        ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                        ConstraintLayout.LayoutParams.WRAP_CONTENT));
+//                mLayout.addView(editText);
+//            }
+//        });
 
     }
 
@@ -69,6 +69,7 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private List<String> saveItemsToList() {
+
         List<String> items = new ArrayList<>();
 
         for(int id : itemsIds){
@@ -80,10 +81,12 @@ public class ListCreationActivity extends AppCompatActivity {
         return items;
     }
 
-    private void safeList() {
+    private void saveShoppingList() {
+
         EditText editText = (EditText) findViewById(R.id.listTitle);
         String title = editText.getText().toString();
-        saveListButton = new Button(this);
+
+        Button saveListButton = new Button(this);
         saveListButton = findViewById(R.id.saveListButton);
         saveListButton.setOnClickListener(v ->
                 managerList.saveToJson(title, saveItemsToList()));

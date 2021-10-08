@@ -24,6 +24,6 @@ public class ManagerList {
     }
 
     public void saveToJson(String listName, List<String> items) {
-        shoppingListDatabase.saveToJson(listName, items);
+        shoppingListDatabase.saveListToJson(listName, items);
     }
 }
