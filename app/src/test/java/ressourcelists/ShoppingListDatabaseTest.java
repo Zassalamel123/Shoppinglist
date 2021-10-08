@@ -29,7 +29,6 @@ public class ShoppingListDatabaseTest {
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
-
         shoppingListDatabase.setJsonFile(FILE_TEST);
     }
 
@@ -39,72 +38,49 @@ public class ShoppingListDatabaseTest {
 
     @Test
     public void saveListToJsonTest() throws JSONException {
-
         shoppingListDatabase.saveListToJson(listName, items);
-
         JSONArray actual = shoppingListDatabase.getJsonCollection();
-
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
     public void saveListToJsonMultipleListsTest() throws JSONException {
-
         String listName2 = "Kaufland";
         String item3 = "tomato";
         List<String> items2 = new ArrayList<>();
         items2.add(item3);
-
         shoppingListDatabase.saveListToJson(listName, items);
         shoppingListDatabase.saveListToJson(listName2, items2);
-
         JSONArray actual = shoppingListDatabase.getJsonCollection();
-
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}," + "{" + listName2 + ":{" + item3 + ":false}}" + "]";
-
         JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void jsonFilePathTest() {
+        String expectedPath = "src\\test\\java\\ressourcelists\\testItemList.json";
+        Assertions.assertEquals(FILE_TEST, expectedPath);
     }
 
     @Test
     public void getJsonContentTest() throws Exception {
-        String expectedPath = "src\\test\\java\\ressourcelists\\testItemList.json";
-        Assertions.assertEquals(FILE_TEST, expectedPath);
-
         shoppingListDatabase.setJsonFile("src\\test\\java\\ressourcelists\\testItemList2.json");
-
         shoppingListDatabase.saveListToJson(listName, items);
-
         JSONArray actual = shoppingListDatabase.getJsonContent();
-
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void getKeyFromJsonContentTest() throws Exception {
-        String expectedPath = "src\\test\\java\\ressourcelists\\testItemList.json";
-        Assertions.assertEquals(FILE_TEST, expectedPath);
-
+    public void getKeysFromJsonContentTest() throws Exception {
         shoppingListDatabase.setJsonFile("src\\test\\java\\ressourcelists\\testItemList2.json");
-
-        JSONArray jsonArray = shoppingListDatabase.getJsonContent();
-        JSONObject jsonObject = new JSONObject();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            jsonObject = (JSONObject) jsonArray.opt(i);
-        }
-
-        Iterator<String> jsonKeys = jsonObject.keys();
+        Iterator<String> jsonKeys = shoppingListDatabase.getKeysFromJsonArray();
         String actual = "";
-        while (jsonKeys.hasNext()){
+        while (jsonKeys.hasNext()) {
             actual = jsonKeys.next();
         }
-
         String expected = listName;
-
         Assertions.assertEquals(expected, actual);
     }
 }

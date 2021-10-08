@@ -31,17 +31,17 @@ public class ManagerListActivity extends AppCompatActivity {
         createListBtn = findViewById(R.id.createListButton);
         createListBtn.setOnClickListener(v ->
                 startActivity(new Intent(ManagerListActivity.this, ListCreationActivity.class)));
-
     }
 
     private void loadList() {
-        TextView textView = new TextView(this);
-        textView = findViewById(R.id.shoppingList1);
         JSONArray jsonArray = managerList.getJsonContent();
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < jsonArray.length(); i++) {
             jsonObject = (JSONObject) jsonArray.opt(i);
         }
+
+        TextView textView = new TextView(this);
+        textView = findViewById(R.id.shoppingList1);
         textView.setText(jsonArray.optString(0));
     }
 

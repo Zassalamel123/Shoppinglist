@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.Iterator;
 import java.util.List;
 
 public class ShoppingListDatabase {
@@ -17,20 +18,15 @@ public class ShoppingListDatabase {
     }
 
     public void saveListToJson(String listName, List<String> items) {
-
         JSONObject jsonObjectList = new JSONObject();
         JSONObject jsonObjectItems = new JSONObject();
-
         try {
             for (String item : items) {
                 jsonObjectItems.put(item, false);
             }
-
             jsonObjectList.put(listName, jsonObjectItems);
             jsonCollection.put(jsonObjectList);
-
             writeJsonToFile(jsonCollection, jsonFile);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -38,9 +34,7 @@ public class ShoppingListDatabase {
 
     private void writeJsonToFile(JSONArray jsonArray, String filePath) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
-
             bufferedWriter.append(jsonArray.toString(4));
-
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
@@ -48,15 +42,12 @@ public class ShoppingListDatabase {
 
     private String readJsonFile(String filePath) throws Exception {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
-
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();
-
             while (line != null) {
                 stringBuilder.append(line).append("\n");
                 line = bufferedReader.readLine();
             }
-
             return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,6 +68,15 @@ public class ShoppingListDatabase {
         setJsonFile(jsonFile);
         String content = readJsonFile(jsonFile);
         return stringToJson(content);
+    }
+
+    public Iterator<String> getKeysFromJsonArray() throws Exception{
+        JSONArray jsonArray = getJsonContent();
+        JSONObject jsonObject = new JSONObject();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            jsonObject = (JSONObject) jsonArray.opt(i);
+        }
+        return jsonObject.keys();
     }
 
     public JSONArray getJsonCollection() {
