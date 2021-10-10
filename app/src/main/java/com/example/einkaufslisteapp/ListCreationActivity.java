@@ -1,13 +1,10 @@
 package com.example.einkaufslisteapp;
 
-import android.view.View;
+import android.os.Bundle;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import managerlists.EinkaufsListe;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
+import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
 import ressourcelists.ShoppingListDatabase;
 
