@@ -15,8 +15,6 @@ jobs:
           distribution: 'adopt'
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
-      - name: Uninstall  build-tool version 31.0.0
-        run: $ANDROID_SDK_ROOT/tools/bin/sdkmanager --uninstall 'build-tools;31.0.0'
       - name: Build with Gradle
         run: ./gradlew build
   test:
