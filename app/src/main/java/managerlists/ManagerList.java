@@ -3,6 +3,7 @@ package managerlists;
 import org.json.JSONArray;
 import ressourcelists.ShoppingListDatabase;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ManagerList {
@@ -21,6 +22,16 @@ public class ManagerList {
             e.printStackTrace();
         }
         return content;
+    }
+
+    public Iterator<String> getKeys() {
+        Iterator<String> keys = null;
+        try {
+            keys = shoppingListDatabase.getKeysFromJsonArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return keys;
     }
 
     public void saveToJson(String listName, List<String> items) {

@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import ressourcelists.ShoppingListDatabase;
 
+import java.util.Iterator;
+
 public class ManagerListActivity extends AppCompatActivity {
 
     private ImageButton createListBtn;

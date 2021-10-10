@@ -3,12 +3,14 @@ package managerlists;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import ressourcelists.ShoppingListDatabase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -37,22 +39,25 @@ class ManagerListTest {
     @Test
     public void getJsonContentTest() throws JSONException {
         shoppingListDatabase.saveListToJson(listName, items);
-
         JSONArray actual = managerList.getJsonContent();
-
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-
         JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void getKeysTest() throws JSONException {
+        managerList.saveToJson(listName, items);
+        Iterator<String> keys = managerList.getKeys();
+        String actual = keys.next();
+        String expected = listName;
+        Assertions.assertEquals(expected,actual);
     }
 
     @Test
     public void saveToJsonTest() throws JSONException {
         managerList.saveToJson(listName, items);
-
         JSONArray actual = shoppingListDatabase.getJsonCollection();
-
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-
         JSONAssert.assertEquals(expected, actual, true);
     }
 

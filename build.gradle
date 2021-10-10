@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.3"
@@ -16,10 +16,16 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//tasks.register("cicd") { // 1
+//    dependsOn(":app:testDebugUnitTest")  // 2 ==> CUSTOMIZE THIS LINE
+//    group = "custom"      // 3
+//    description = "run CICD Pipeline" //3
+//}
