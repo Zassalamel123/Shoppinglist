@@ -6,7 +6,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
-import ressourcelists.ShoppingListDatabase;
+import ressourcelists.DatabaseReader;
+import ressourcelists.DatabaseWriter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class ListCreationActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
     public EinkaufsListe einkaufsListe = new EinkaufsListe();
-    private final ManagerList managerList = new ManagerList(new ShoppingListDatabase());
+    private final ManagerList managerList = new ManagerList(new DatabaseReader());
     private final int[] itemsIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
 
     @Override

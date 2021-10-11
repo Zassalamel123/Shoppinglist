@@ -2,22 +2,20 @@ package com.example.einkaufslisteapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import managerlists.ManagerList;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ressourcelists.ShoppingListDatabase;
-
-import java.util.Iterator;
+import ressourcelists.DatabaseReader;
+import ressourcelists.DatabaseWriter;
 
 public class ManagerListActivity extends AppCompatActivity {
 
     private ImageButton createListBtn;
     public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
-    private final ManagerList managerList = new ManagerList(new ShoppingListDatabase());
+    private final ManagerList managerList = new ManagerList(new DatabaseReader());
 
 
     @Override

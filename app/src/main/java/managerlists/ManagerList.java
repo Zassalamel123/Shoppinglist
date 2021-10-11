@@ -1,23 +1,25 @@
 package managerlists;
 
 import org.json.JSONArray;
-import ressourcelists.ShoppingListDatabase;
+import ressourcelists.DatabaseReader;
+import ressourcelists.DatabaseWriter;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class ManagerList {
 
-    private ShoppingListDatabase shoppingListDatabase;
+    private DatabaseReader databaseReader;
+    private DatabaseWriter databaseWriter;
 
-    public ManagerList(ShoppingListDatabase shoppingListDatabase) {
-        this.shoppingListDatabase = shoppingListDatabase;
+    public ManagerList(DatabaseReader databaseReader) {
+        this.databaseReader = databaseReader;
     }
 
     public JSONArray getJsonContent() {
         JSONArray content = new JSONArray();
         try {
-            content = shoppingListDatabase.getJsonContent();
+            content = databaseReader.getJsonContent();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,7 +29,7 @@ public class ManagerList {
     public Iterator<String> getKeys() {
         Iterator<String> keys = null;
         try {
-            keys = shoppingListDatabase.getKeysFromJsonArray();
+            keys = databaseReader.getKeysFromJsonArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,6 +37,6 @@ public class ManagerList {
     }
 
     public void saveToJson(String listName, List<String> items) {
-        shoppingListDatabase.saveListToJson(listName, items);
+        databaseWriter.saveListToJson(listName, items);
     }
 }
