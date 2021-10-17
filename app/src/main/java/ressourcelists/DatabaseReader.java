@@ -1,19 +1,23 @@
 package ressourcelists;
 
+import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 
 public class DatabaseReader {
 
-    private String jsonFile = "src/main/java/ressourcelists/itemList.json";
+    private String jsonFile = "itemList.json";
+    private Context context;
 
-    public Iterator<String> getKeysFromJsonArray() throws Exception{
+    public DatabaseReader(Context context) {
+        this.context = context;
+    }
+
+    public Iterator<String> getKeysFromJsonArray() throws Exception {
         JSONArray jsonArray = getJsonContent();
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -33,7 +37,7 @@ public class DatabaseReader {
     }
 
     private String readJsonFile(String filePath) throws Exception {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.openFileInput(jsonFile)))) {
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();
             while (line != null) {
@@ -49,6 +53,12 @@ public class DatabaseReader {
 
     private JSONArray stringToJson(String fileContent) throws Exception {
         try {
+//            JSONObject jsnobject = new JSONObject(fileContent);
+//            JSONArray jsonArray = jsnobject.getJSONArray("Titel");
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                JSONObject explrObject = jsonArray.getJSONObject(i);
+//            }
+//            return jsonArray;
             return new JSONArray(fileContent);
         } catch (JSONException e) {
             e.printStackTrace();

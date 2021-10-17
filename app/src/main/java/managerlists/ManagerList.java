@@ -1,6 +1,8 @@
 package managerlists;
 
+import android.content.Context;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
@@ -12,8 +14,9 @@ public class ManagerList {
     private DatabaseReader databaseReader;
     private DatabaseWriter databaseWriter;
 
-    public ManagerList(DatabaseReader databaseReader) {
+    public ManagerList(DatabaseReader databaseReader, DatabaseWriter databaseWriter) {
         this.databaseReader = databaseReader;
+        this.databaseWriter = databaseWriter;
     }
 
     public JSONArray getJsonContent() {

@@ -1,5 +1,6 @@
 package ressourcelists;
 
+import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -10,7 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.*;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class DatabaseWriterTest {
@@ -21,10 +27,12 @@ public class DatabaseWriterTest {
     private List<String> items;
     private String listName = "Aldi";
     private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testItemList.json";
+    private final Context mockContext = mock(Context.class);
 
     @BeforeEach
     public void setUp() throws Exception {
-        databaseWriter = new DatabaseWriter();
+        databaseWriter = new DatabaseWriter(mockContext);
+        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);

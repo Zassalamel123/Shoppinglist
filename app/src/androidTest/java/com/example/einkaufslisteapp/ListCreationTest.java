@@ -36,13 +36,13 @@ public class ListCreationTest {
         assertEquals("com.example.einkaufslisteapp", appContext.getPackageName());
     }
 
-    @Test
-    public void listIsSavedInDatabase() {
-        ManagerList managerList = new ManagerList(new DatabaseWriter());
-        onView(withId(R.id.listTitle)).perform(typeText("Kaufland"));
-        onView(withId(R.id.item1)).perform(typeText("Banane"));
-        onView(withId(R.id.item2)).perform(typeText("Apfel"));
-        onView(withId(R.id.saveListButton)).perform(click());
-
-    }
+//    @Test
+//    public void listIsSavedInDatabase() {
+//        ManagerList managerList = new ManagerList(new DatabaseWriter());
+//        onView(withId(R.id.listTitle)).perform(typeText("Kaufland"));
+//        onView(withId(R.id.item1)).perform(typeText("Banane"));
+//        onView(withId(R.id.item2)).perform(typeText("Apfel"));
+//        onView(withId(R.id.saveListButton)).perform(click());
+//
+//    }
 }
