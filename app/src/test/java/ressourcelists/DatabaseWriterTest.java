@@ -32,11 +32,12 @@ public class DatabaseWriterTest {
     @BeforeEach
     public void setUp() throws Exception {
         databaseWriter = new DatabaseWriter(mockContext);
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
         databaseWriter.setJsonFile(FILE_TEST);
+
+        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
     }
 
     @AfterEach

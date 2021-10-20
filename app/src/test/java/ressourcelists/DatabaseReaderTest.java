@@ -29,11 +29,12 @@ class DatabaseReaderTest {
     @BeforeEach
     void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
-        when(mockContext.openFileInput(FILE_TEST)).thenReturn(new FileInputStream(FILE_TEST));
         List<String> items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
         databaseReader.setJsonFile(FILE_TEST);
+
+        when(mockContext.openFileInput(FILE_TEST)).thenReturn(new FileInputStream(FILE_TEST));
     }
 
     @AfterEach

@@ -1,8 +1,6 @@
 package managerlists;
 
-import android.content.Context;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
