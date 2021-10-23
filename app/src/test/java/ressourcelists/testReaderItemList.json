@@ -1,4 +1,14 @@
-[{"Aldi": {
-    "banana": false,
-    "apple": false
-}}]
+[
+  {
+    "Aldi": {
+      "banana": false,
+      "apple": false
+    }
+  },
+  {
+    "Real": {
+      "karotten": false,
+      "erbsen": false
+    }
+  }
+]
