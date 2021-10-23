@@ -17,8 +17,26 @@ public class DatabaseReader {
         this.context = context;
     }
 
+    public boolean doesListNameExist(String listName) throws Exception {
+        Iterator<String> iterator = getKeysFromJsonArray();
+        return lookUpDuplicateListName(iterator, listName);
+    }
+
+    private boolean lookUpDuplicateListName(Iterator<String> iterator, String listName) {
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(listName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Iterator<String> getKeysFromJsonArray() throws Exception {
         JSONArray jsonArray = getJsonContent();
+        return getJsonObjectKeys(jsonArray);
+    }
+
+    private Iterator<String> getJsonObjectKeys(JSONArray jsonArray) {
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < jsonArray.length(); i++) {
             jsonObject = (JSONObject) jsonArray.opt(i);
@@ -27,16 +45,16 @@ public class DatabaseReader {
     }
 
     public JSONArray getJsonContent() throws Exception {
-        setJsonFile(jsonFile);
-        String content = readJsonFile(jsonFile);
+        setJsonFilePath(jsonFile);
+        String content = readJsonFile();
         return stringToJson(content);
     }
 
-    public void setJsonFile(String jsonFile) {
+    public void setJsonFilePath(String jsonFile) {
         this.jsonFile = jsonFile;
     }
 
-    private String readJsonFile(String filePath) throws Exception {
+    private String readJsonFile() throws Exception {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.openFileInput(jsonFile)))) {
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();
@@ -53,16 +71,14 @@ public class DatabaseReader {
 
     private JSONArray stringToJson(String fileContent) throws Exception {
         try {
-//            JSONObject jsnobject = new JSONObject(fileContent);
-//            JSONArray jsonArray = jsnobject.getJSONArray("Titel");
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject explrObject = jsonArray.getJSONObject(i);
-//            }
-//            return jsonArray;
             return new JSONArray(fileContent);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         throw new Exception("Cannot convert String to Json");
+    }
+
+    public String getJsonFilePath() {
+        return jsonFile;
     }
 }
