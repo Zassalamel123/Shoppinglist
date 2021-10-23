@@ -10,8 +10,6 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -22,16 +20,16 @@ class DatabaseReaderTest {
     private DatabaseReader databaseReader;
     private final String item1 = "apple";
     private final String item2 = "banana";
-    private final String listName = "Aldi";
+    private final String item3 = "karotten";
+    private final String item4 = "erbsen";
+    private final String listName1 = "Aldi";
+    private final String listName2 = "Real";
     private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testReaderItemList.json";
     private final Context mockContext = mock(Context.class);
 
     @BeforeEach
     void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
-        List<String> items = new ArrayList<>();
-        items.add(item1);
-        items.add(item2);
         databaseReader.setJsonFilePath(FILE_TEST);
 
         when(mockContext.openFileInput(FILE_TEST)).thenReturn(new FileInputStream(FILE_TEST));
@@ -43,18 +41,17 @@ class DatabaseReaderTest {
 
     @Test
     void getKeysFromJsonArray() throws Exception {
-        Iterator<String> jsonKeys = databaseReader.getKeysFromJsonArray();
-        String actual = "";
-        while (jsonKeys.hasNext()) {
-            actual = jsonKeys.next();
-        }
-        Assertions.assertEquals(listName, actual);
+        List<String> keys = databaseReader.getKeysFromJsonArray();
+        Assertions.assertEquals(listName1, keys.get(0));
+        Assertions.assertEquals(listName2, keys.get(1));
+
     }
 
     @Test
     void getJsonContent() throws Exception {
         JSONArray actual = databaseReader.getJsonContent();
-        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
+        String expected = "[{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}," +
+                " {" + listName2 + ":{ " + item3 + ":false," + item4 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
@@ -69,7 +66,7 @@ class DatabaseReaderTest {
 
     @Test
     void doesListNameExist() throws Exception {
-        boolean actual = databaseReader.doesListNameExist(listName);
+        boolean actual = databaseReader.doesListNameExist(listName1);
         Assertions.assertTrue(actual);
     }
 

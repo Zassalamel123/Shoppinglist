@@ -6,7 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class DatabaseReader {
 
@@ -18,30 +20,27 @@ public class DatabaseReader {
     }
 
     public boolean doesListNameExist(String listName) throws Exception {
-        Iterator<String> iterator = getKeysFromJsonArray();
-        return lookUpDuplicateListName(iterator, listName);
+        List<String> keys = getKeysFromJsonArray();
+        return lookUpDuplicateListName(keys, listName);
     }
 
-    private boolean lookUpDuplicateListName(Iterator<String> iterator, String listName) {
-        while (iterator.hasNext()) {
-            if (iterator.next().equals(listName)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean lookUpDuplicateListName(List<String> keys, String listName) {
+        return keys.contains(listName);
     }
 
-    public Iterator<String> getKeysFromJsonArray() throws Exception {
+    public List<String> getKeysFromJsonArray() throws Exception {
         JSONArray jsonArray = getJsonContent();
         return getJsonObjectKeys(jsonArray);
     }
 
-    private Iterator<String> getJsonObjectKeys(JSONArray jsonArray) {
-        JSONObject jsonObject = new JSONObject();
+    private List<String> getJsonObjectKeys(JSONArray jsonArray) {
+        List<String> keys = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            jsonObject = (JSONObject) jsonArray.opt(i);
+            JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+            Iterator<String> iterator = jsonObject.keys();
+            keys.add(iterator.next());
         }
-        return jsonObject.keys();
+        return keys;
     }
 
     public JSONArray getJsonContent() throws Exception {
