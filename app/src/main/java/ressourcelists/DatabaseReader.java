@@ -63,15 +63,18 @@ public class DatabaseReader {
                 line = bufferedReader.readLine();
             }
             return stringBuilder.toString();
-        } catch (IOException e) {
-            throw new IOException("Cannot read Json File");
+        } catch (IOException exception) {
+            throw new IOException(exception);
         }
     }
 
     private JSONArray stringToJson(String fileContent) throws Exception {
         try {
+            if (fileContent.equals("")) {
+                return new JSONArray();
+            }
             return new JSONArray(fileContent);
-        } catch (JSONException e) {
+        } catch (JSONException exception) {
             throw new JSONException("Cannot convert String to Json");
         }
     }

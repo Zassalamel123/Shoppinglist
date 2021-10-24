@@ -34,17 +34,16 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
     private void loadList() {
-        String title = "";
-        Iterator<String> iterator = managerList.getKeys();
-        if (iterator != null) {
-            while (iterator.hasNext()){
-                title = iterator.next();
-            }
-        }
-
-        TextView textView = new TextView(this);
-        textView = findViewById(R.id.shoppingList1);
-        textView.setText(title);
+//        String title = "";
+//        List<String> iterator = managerList.getKeys();
+//        if (iterator != null) {
+//            while (iterator.hasNext()){
+//                title = iterator.next();
+//                TextView textView = new TextView(this);
+//                textView = findViewById(R.id.shoppingList1);
+//                textView.setText(title);
+//            }
+//        }
     }
 
 }
