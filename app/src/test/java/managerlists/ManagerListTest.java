@@ -2,7 +2,6 @@ package managerlists;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,6 @@ import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -22,14 +20,13 @@ class ManagerListTest {
     private ManagerList managerList;
 
     private List<String> items;
+    private List<String> keys;
     private String listName = "Real";
     private String item1 = "Ananas";
     private String item2 = "Kiwi";
     private final DatabaseWriter mockDatabaseWriter = mock(DatabaseWriter.class);
     private final DatabaseReader mockDatabaseReader = mock(DatabaseReader.class);
     private JSONArray jsonContent;
-
-    private JSONObject jsonObject;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -38,15 +35,16 @@ class ManagerListTest {
                 "    \"" + item1 + "\": false,\n" +
                 "    \"" + item2 + "\": false\n" +
                 "}}]");
-        jsonObject = (JSONObject) jsonContent.opt(0);
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
 
+        keys = new ArrayList<>();
+        keys.add(listName);
+
         when(mockDatabaseReader.getJsonContent()).thenReturn(jsonContent);
         when(mockDatabaseWriter.getJsonCollection()).thenReturn(jsonContent);
-        when(mockDatabaseReader.getKeysFromJsonArray()).thenReturn(jsonObject.keys());
-        doNothing().when(mockDatabaseWriter).saveListToJson(listName, items);
+        when(mockDatabaseReader.getKeysFromJsonArray()).thenReturn(keys);
     }
 
     @Test
@@ -57,9 +55,9 @@ class ManagerListTest {
     }
 
     @Test
-    public void getKeysTest() throws JSONException {
-        Iterator<String> keys = managerList.getKeys();
-        String actual = keys.next();
+    public void getKeysTest() {
+        List<String> keys = managerList.getKeys();
+        String actual = keys.get(0);
         String expected = listName;
         Assertions.assertEquals(expected,actual);
     }

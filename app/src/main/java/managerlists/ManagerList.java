@@ -27,8 +27,8 @@ public class ManagerList {
         return content;
     }
 
-    public Iterator<String> getKeys() {
-        Iterator<String> keys = null;
+    public List<String> getKeys() {
+        List<String> keys = null;
         try {
             keys = databaseReader.getKeysFromJsonArray();
         } catch (Exception e) {
@@ -38,6 +38,12 @@ public class ManagerList {
     }
 
     public void saveToJson(String listName, List<String> items) {
-        databaseWriter.saveListToJson(listName, items);
+        try {
+            JSONArray jsonArray = databaseReader.getJsonContent();
+            databaseWriter.setJsonCollection(jsonArray);
+            databaseWriter.saveListToJson(listName, items);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
