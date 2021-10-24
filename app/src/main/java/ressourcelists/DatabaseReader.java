@@ -14,27 +14,28 @@ public class DatabaseReader {
 
     private String jsonFile = "itemList.json";
     private Context context;
+    private List<String> keys;
 
     public DatabaseReader(Context context) {
         this.context = context;
+        keys = new ArrayList<>();
     }
 
     public boolean doesListNameExist(String listName) throws Exception {
-        List<String> keys = getKeysFromJsonArray();
-        return lookUpDuplicateListName(keys, listName);
+        keys = getKeysFromJsonArray();
+        return lookUpDuplicateListName(listName);
     }
 
-    private boolean lookUpDuplicateListName(List<String> keys, String listName) {
+    private boolean lookUpDuplicateListName(String listName) {
         return keys.contains(listName);
     }
 
     public List<String> getKeysFromJsonArray() throws Exception {
         JSONArray jsonArray = getJsonContent();
-        return getJsonObjectKeys(jsonArray);
+        return extractJsonArrayKeys(jsonArray);
     }
 
-    private List<String> getJsonObjectKeys(JSONArray jsonArray) {
-        List<String> keys = new ArrayList<>();
+    private List<String> extractJsonArrayKeys(JSONArray jsonArray) {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
             Iterator<String> iterator = jsonObject.keys();
@@ -63,18 +64,16 @@ public class DatabaseReader {
             }
             return stringBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Cannot read Json File");
         }
-        throw new Exception("Cannot read Json File");
     }
 
     private JSONArray stringToJson(String fileContent) throws Exception {
         try {
             return new JSONArray(fileContent);
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new JSONException("Cannot convert String to Json");
         }
-        throw new Exception("Cannot convert String to Json");
     }
 
     public String getJsonFilePath() {
