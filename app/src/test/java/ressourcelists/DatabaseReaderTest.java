@@ -15,7 +15,7 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class DatabaseReaderTest {
+public class DatabaseReaderTest {
 
     private DatabaseReader databaseReader;
     private final String item1 = "apple";
@@ -28,7 +28,7 @@ class DatabaseReaderTest {
     private final Context mockContext = mock(Context.class);
 
     @BeforeEach
-    void setUp() throws FileNotFoundException {
+    public void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
         databaseReader.setJsonFilePath(FILE_TEST);
 
@@ -36,11 +36,11 @@ class DatabaseReaderTest {
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
     }
 
     @Test
-    void getKeysFromJsonArray() throws Exception {
+    public void getKeysFromJsonArray() throws Exception {
         List<String> keys = databaseReader.getKeysFromJsonArray();
         Assertions.assertEquals(listName1, keys.get(0));
         Assertions.assertEquals(listName2, keys.get(1));
@@ -48,7 +48,7 @@ class DatabaseReaderTest {
     }
 
     @Test
-    void getJsonContent() throws Exception {
+    public void getJsonContent() throws Exception {
         JSONArray actual = databaseReader.getJsonContent();
         String expected = "[{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}," +
                 " {" + listName2 + ":{ " + item3 + ":false," + item4 + ":false}}]";
@@ -56,7 +56,7 @@ class DatabaseReaderTest {
     }
 
     @Test
-    void setJsonFilePath() {
+    public void setJsonFilePath() {
         String testJsonFile = "src\\test\\java\\ressourcelists\\testReaderItemList2.json";
         databaseReader.setJsonFilePath(testJsonFile);
         String expected = testJsonFile;
@@ -65,13 +65,13 @@ class DatabaseReaderTest {
     }
 
     @Test
-    void doesListNameExist() throws Exception {
+    public void doesListNameExist() throws Exception {
         boolean actual = databaseReader.doesListNameExist(listName1);
         Assertions.assertTrue(actual);
     }
 
     @Test
-    void doesListNameExistReturnFalse() throws Exception {
+    public void doesListNameExistReturnFalse() throws Exception {
         boolean actual = databaseReader.doesListNameExist("Media Markt");
         Assertions.assertFalse(actual);
     }

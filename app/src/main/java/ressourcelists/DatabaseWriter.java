@@ -14,9 +14,8 @@ public class DatabaseWriter {
 
     private String jsonFile = "itemList.json"; //todo change path for android?
     private Context context;
-//    private DatabaseReader databaseReader;
+
     public DatabaseWriter(Context context) {
-//        databaseReader = new DatabaseReader(context);
         this.context = context;
         jsonCollection = new JSONArray();
     }
@@ -34,21 +33,14 @@ public class DatabaseWriter {
             }
             jsonObjectList.put(listName, jsonObjectItems);
             jsonCollection.put(jsonObjectList);
-            //todo test if append works correctly
-            if (new File(jsonFile).exists()) {
-                appendJsonArrayToFile(jsonCollection, jsonFile);
-//                appendJsonObjectToFile(jsonObjectList, jsonFile);
-            } else {
-                writeJsonArrayToFile(jsonCollection, jsonFile);
-//                writeJsonObjectToFile(jsonObjectList, jsonFile);
-            }
+            writeJsonArrayToFile(jsonCollection, jsonFile);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void writeJsonArrayToFile(JSONArray jsonArray, String filePath) throws Exception {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_PRIVATE)))){
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_PRIVATE)))) {
             String content = jsonArray.toString(4);
             if (content != null) {
                 bufferedWriter.write(content);
@@ -59,7 +51,7 @@ public class DatabaseWriter {
     }
 
     private void writeJsonObjectToFile(JSONObject jsonObject, String filePath) throws Exception {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_PRIVATE)))){
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_PRIVATE)))) {
             String content = jsonObject.toString(4);
             bufferedWriter.write(content);
         } catch (IOException exception) {
@@ -68,7 +60,7 @@ public class DatabaseWriter {
     }
 
     private void appendJsonArrayToFile(JSONArray jsonArray, String filePath) throws Exception {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_APPEND)))){
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_APPEND)))) {
             String content = jsonArray.toString(4);
             bufferedWriter.append(content);
         } catch (IOException exception) {
@@ -77,7 +69,7 @@ public class DatabaseWriter {
     }
 
     private void appendJsonObjectToFile(JSONObject jsonObject, String filePath) throws Exception {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_APPEND)))){
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(filePath, Context.MODE_APPEND)))) {
             String content = jsonObject.toString(4);
             bufferedWriter.append(content);
         } catch (IOException exception) {

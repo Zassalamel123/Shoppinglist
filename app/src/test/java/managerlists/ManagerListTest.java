@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-class ManagerListTest {
+public class ManagerListTest {
 
     private ManagerList managerList;
 
@@ -29,7 +29,7 @@ class ManagerListTest {
     private JSONArray jsonContent;
 
     @BeforeEach
-    void setUp() throws Exception {
+    public void setUp() throws Exception {
         managerList = new ManagerList(mockDatabaseReader, mockDatabaseWriter);
         jsonContent = new JSONArray("[{\"" + listName + "\": {\n" +
                 "    \"" + item1 + "\": false,\n" +
@@ -71,6 +71,6 @@ class ManagerListTest {
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
     }
 }
