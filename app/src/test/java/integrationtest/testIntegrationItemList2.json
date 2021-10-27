@@ -1,0 +1,10 @@
+[
+    {"Real": {
+        "Kiwi": false,
+        "Ananas": false
+    }},
+    {"Saturn": {
+        "Kiwi": false,
+        "tomato": false
+    }}
+]
