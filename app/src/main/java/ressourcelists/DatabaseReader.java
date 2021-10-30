@@ -82,4 +82,12 @@ public class DatabaseReader {
     public String getJsonFilePath() {
         return jsonFile;
     }
+
+    public boolean doesFileExist() {
+        File file = new File(jsonFile);
+        if (file.exists()) {
+            return true;
+        }
+        return false;
+    }
 }

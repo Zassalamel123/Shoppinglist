@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class ManagerList {
@@ -39,11 +38,15 @@ public class ManagerList {
 
     public void saveToJson(String listName, List<String> items) {
         try {
-            JSONArray jsonArray = databaseReader.getJsonContent();
-            databaseWriter.setJsonCollection(jsonArray);
+            if (databaseReader.doesFileExist()) {
+                JSONArray jsonArray = databaseReader.getJsonContent();
+                databaseWriter.setJsonCollection(jsonArray);
+            }
             databaseWriter.saveListToJson(listName, items);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    //todo overrite titlelist for duplicate?
 }
