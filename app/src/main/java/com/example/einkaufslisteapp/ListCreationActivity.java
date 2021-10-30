@@ -1,8 +1,11 @@
 package com.example.einkaufslisteapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
@@ -23,22 +26,15 @@ public class ListCreationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
-
+        getTitleListFromPreviousActivity();
         saveShoppingList();
-
     }
 
     private void getTitleListFromPreviousActivity() {
-
-
-//        Intent intent = new Intent(this, ListCreationActivity.class);
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(ManagerListActivity.EXTRA_MESSAGE);
         EditText editText = (EditText) findViewById(R.id.listTitle);
-        String message = editText.getText().toString();
-//        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
-
-        einkaufsListe.nameTitle(message);
-
+        editText.setText(message);
     }
 
     private void addItem() {
@@ -81,13 +77,19 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private void saveShoppingList() {
 
-        EditText editText = (EditText) findViewById(R.id.listTitle);
-        String title = editText.getText().toString();
-
-        Button saveListButton = new Button(this);
-        saveListButton = findViewById(R.id.saveListButton);
-        saveListButton.setOnClickListener(v ->
-                managerList.saveToJson(title, saveItemsToList()));
+        Button saveListButton = findViewById(R.id.saveListButton);
+        saveListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = (EditText) findViewById(R.id.listTitle);
+                String title = editText.getText().toString();
+                editText.setText(title);
+                managerList.saveToJson(title, saveItemsToList());
+                Intent i = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+                ListCreationActivity.super.finish();
+                startActivity(i);
+            }
+        });
     }
 
 }

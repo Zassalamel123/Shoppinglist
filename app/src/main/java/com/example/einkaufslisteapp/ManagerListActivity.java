@@ -9,14 +9,14 @@ import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManagerListActivity extends AppCompatActivity {
 
     private ImageButton createListBtn;
-    public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
-
+    public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +29,31 @@ public class ManagerListActivity extends AppCompatActivity {
     private void createList() {
         createListBtn = new ImageButton(this);
         createListBtn = findViewById(R.id.createListButton);
-        createListBtn.setOnClickListener(v ->
-                startActivity(new Intent(ManagerListActivity.this, ListCreationActivity.class)));
+        createListBtn.setOnClickListener(v ->{
+            Intent intent = new Intent(ManagerListActivity.this, ListCreationActivity.class);
+            TextView textView = findViewById(R.id.shoppingList1);
+            String message = textView.getText().toString();
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+        });
     }
 
     private void loadList() {
-//        String title = "";
-//        List<String> iterator = managerList.getKeys();
-//        if (iterator != null) {
-//            while (iterator.hasNext()){
-//                title = iterator.next();
-//                TextView textView = new TextView(this);
-//                textView = findViewById(R.id.shoppingList1);
-//                textView.setText(title);
-//            }
-//        }
+        String title = "";
+        String key = "";
+        List<String> keys = managerList.getKeys();
+
+        if (areKeysNotNull(keys)) {
+            key = keys.get(0);
+        } else
+            key = "Titel";
+
+        TextView textView = findViewById(R.id.shoppingList1);
+        textView.setText(key);
+    }
+
+    private boolean areKeysNotNull(List<String> keys) {
+        return keys != null;
     }
 
 }
