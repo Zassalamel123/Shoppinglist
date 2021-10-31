@@ -45,7 +45,6 @@ public class DatabaseReaderTest {
         List<String> keys = databaseReader.getKeysFromJsonArray();
         Assertions.assertEquals(listName1, keys.get(0));
         Assertions.assertEquals(listName2, keys.get(1));
-
     }
 
     @Test
@@ -78,22 +77,15 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void getJsonContentFirstEntry() throws Exception {
-        JSONArray content = databaseReader.getJsonContent();
-        Object firstEntry = content.opt(0);
-        String actual = firstEntry.toString();
-        String expected = "{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}";
+    public void getJsonContentByTitleKey() throws Exception {
+        JSONObject firstEntryContent = databaseReader.getJsonContentByTitleKey(listName1);
+        String actual = firstEntryContent.toString();
+        String expected = "{" + item1 + ":false," + item2 + ":false}";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void getJsonContentFirstEntryWithoutKey() throws Exception {
-        JSONArray content = databaseReader.getJsonContent();
-        Object firstEntry = content.opt(0);
-        JSONObject jsonObject = new JSONObject(firstEntry.toString());
-        Object obj = jsonObject.get(listName1);
-        String actual = obj.toString();
-        String expected = "{" + item1 + ":false," + item2 + ":false}";
-        JSONAssert.assertEquals(expected, actual, true);
+    public void getJsonContentByItem() throws Exception {
+
     }
 }

@@ -1,6 +1,7 @@
 package managerlists;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
@@ -20,6 +21,16 @@ public class ManagerList {
         JSONArray content = new JSONArray();
         try {
             content = databaseReader.getJsonContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+    public JSONObject getJsonContentByKey(String key) {
+        JSONObject content = null;
+        try {
+            content = databaseReader.getJsonContentByTitleKey(key);
         } catch (Exception e) {
             e.printStackTrace();
         }

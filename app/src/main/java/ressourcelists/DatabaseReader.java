@@ -90,4 +90,18 @@ public class DatabaseReader {
         }
         return false;
     }
+
+    public JSONObject getJsonContentByTitleKey(String key) throws Exception {
+        JSONArray content = getJsonContent();
+        Object specificContent;
+        for (int index = 0; index < content.length(); index++) {
+            Object entry = content.opt(index);
+            JSONObject jsonObject = new JSONObject(entry.toString());
+            specificContent = jsonObject.opt(key);
+            if (specificContent != null) {
+                return new JSONObject(specificContent.toString());
+            }
+        }
+        throw new JSONException("Entry not found");
+    }
 }
