@@ -85,4 +85,15 @@ public class DatabaseReaderTest {
         String expected = "{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}";
         JSONAssert.assertEquals(expected, actual, true);
     }
+
+    @Test
+    public void getJsonContentFirstEntryWithoutKey() throws Exception {
+        JSONArray content = databaseReader.getJsonContent();
+        Object firstEntry = content.opt(0);
+        JSONObject jsonObject = new JSONObject(firstEntry.toString());
+        Object obj = jsonObject.get(listName1);
+        String actual = obj.toString();
+        String expected = "{" + item1 + ":false," + item2 + ":false}";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
 }
