@@ -2,6 +2,7 @@ package ressourcelists;
 
 import android.content.Context;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,5 +75,14 @@ public class DatabaseReaderTest {
     public void doesListNameExistReturnFalse() throws Exception {
         boolean actual = databaseReader.doesListNameExist("Media Markt");
         Assertions.assertFalse(actual);
+    }
+
+    @Test
+    public void getJsonContentFirstEntry() throws Exception {
+        JSONArray content = databaseReader.getJsonContent();
+        Object firstEntry = content.opt(0);
+        String actual = firstEntry.toString();
+        String expected = "{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}";
+        JSONAssert.assertEquals(expected, actual, true);
     }
 }

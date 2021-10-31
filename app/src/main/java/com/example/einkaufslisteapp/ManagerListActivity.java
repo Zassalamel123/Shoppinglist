@@ -9,14 +9,14 @@ import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerListActivity extends AppCompatActivity {
 
     private ImageButton createListBtn;
+    private ImageButton editListBtn;
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
-    public static final String EXTRA_MESSAGE = "com.example.einkaufslisteapp.MESSAGE";
+    public static final String TITLE_NAME = "com.example.einkaufslisteapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class ManagerListActivity extends AppCompatActivity {
         setContentView(R.layout.manager_list);
         loadList();
         createList();
+        editList();
     }
 
     private void createList() {
@@ -33,7 +34,19 @@ public class ManagerListActivity extends AppCompatActivity {
             Intent intent = new Intent(ManagerListActivity.this, ListCreationActivity.class);
             TextView textView = findViewById(R.id.shoppingList1);
             String message = textView.getText().toString();
-            intent.putExtra(EXTRA_MESSAGE, message);
+            intent.putExtra(TITLE_NAME, message);
+            startActivity(intent);
+        });
+    }
+
+    private void editList() {
+        editListBtn = new ImageButton(this);
+        editListBtn = findViewById(R.id.editListButton);
+        editListBtn.setOnClickListener(v ->{
+            Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
+            TextView textView = findViewById(R.id.shoppingList1);
+            String message = textView.getText().toString();
+            intent.putExtra(TITLE_NAME, message);
             startActivity(intent);
         });
     }

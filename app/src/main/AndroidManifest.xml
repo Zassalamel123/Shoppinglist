@@ -9,8 +9,11 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.EinkaufslisteApp">
-        <activity android:name=".ListCreationActivity"
-                  android:parentActivityName=".ManagerListActivity">
+        <activity android:name=".ListEditActivity">
+        </activity>
+        <activity
+                android:name=".ListCreationActivity"
+                android:parentActivityName=".ManagerListActivity">
         </activity>
         <activity
                 android:name=".ManagerListActivity"
