@@ -14,23 +14,23 @@ public class DatabaseReader {
 
     private String jsonFile = "itemList.json";
     private Context context;
-    private List<String> keys;
+    private List<String> titleKeys;
 
     public DatabaseReader(Context context) {
         this.context = context;
-        keys = new ArrayList<>();
+        titleKeys = new ArrayList<>();
     }
 
     public boolean doesListNameExist(String listName) throws Exception {
-        keys = getKeysFromJsonArray();
+        titleKeys = getTitleKeysFromJsonArray();
         return lookUpDuplicateListName(listName);
     }
 
     private boolean lookUpDuplicateListName(String listName) {
-        return keys.contains(listName);
+        return titleKeys.contains(listName);
     }
 
-    public List<String> getKeysFromJsonArray() throws Exception {
+    public List<String> getTitleKeysFromJsonArray() throws Exception {
         JSONArray jsonArray = getJsonContent();
         return extractJsonArrayKeys(jsonArray);
     }
@@ -39,9 +39,9 @@ public class DatabaseReader {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
             Iterator<String> iterator = jsonObject.keys();
-            keys.add(iterator.next());
+            titleKeys.add(iterator.next());
         }
-        return keys;
+        return titleKeys;
     }
 
     public JSONArray getJsonContent() throws Exception {
@@ -103,5 +103,15 @@ public class DatabaseReader {
             }
         }
         throw new JSONException("Entry not found");
+    }
+    
+    public List<String> getItemKeys(String key) throws Exception {
+        JSONObject items = getJsonContentByTitleKey(key);
+        Iterator<String> itemKeysIterator = items.keys();
+        List<String> itemKeys = new ArrayList<>();
+        while (itemKeysIterator.hasNext()) {
+            itemKeys.add(itemKeysIterator.next());
+        }
+        return itemKeys;
     }
 }

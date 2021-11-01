@@ -42,7 +42,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void getKeysFromJsonArray() throws Exception {
-        List<String> keys = databaseReader.getKeysFromJsonArray();
+        List<String> keys = databaseReader.getTitleKeysFromJsonArray();
         Assertions.assertEquals(listName1, keys.get(0));
         Assertions.assertEquals(listName2, keys.get(1));
     }
@@ -85,7 +85,9 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void getJsonContentByItem() throws Exception {
-
+    public void getItemKeys() throws Exception {
+        List<String> itemKeys = databaseReader.getItemKeys(listName1);
+        Assertions.assertEquals(item1, itemKeys.get(1));
+        Assertions.assertEquals(item2, itemKeys.get(0));
     }
 }
