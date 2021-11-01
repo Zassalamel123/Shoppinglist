@@ -1,7 +1,6 @@
 package com.example.einkaufslisteapp;
 
 import android.content.Intent;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class ListEditActivity extends AppCompatActivity {
 
@@ -22,11 +24,7 @@ public class ListEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_edit);
         getTitleListFromPreviousActivity();
-        try {
-            loadItems();
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
+        loadItems();
     }
 
     private void getTitleListFromPreviousActivity() {
@@ -36,18 +34,15 @@ public class ListEditActivity extends AppCompatActivity {
         textView.setText(title);
     }
 
-    private void loadItems() throws JSONException {
-
-        JSONArray content = new JSONArray();
-        content = managerList.getJsonContent();
-//        JSONObject jsonObject = new JSONObject(content);
-        String test = content.get(0).toString();
+    private void loadItems() {
+        TextView textView = (TextView) findViewById(R.id.editTitleList);
+        String title = textView.getText().toString();
+        Object content = managerList.getJsonContentByKey(title);
+        List<String> itemKeys = managerList.getItemKeys(title);
         int counter = 0;
-
-        for(int id : itemEditIds){
-            TextView textView = (TextView) findViewById(id);
-            textView.setText((String) content.opt(counter));
-            counter++;
+        for (int id : itemEditIds) {
+            TextView textViewItems = (TextView) findViewById(id);
+            textViewItems.setText(itemKeys.get(counter++));
         }
     }
 }

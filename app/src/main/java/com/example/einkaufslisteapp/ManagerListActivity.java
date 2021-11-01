@@ -54,7 +54,7 @@ public class ManagerListActivity extends AppCompatActivity {
     private void loadList() {
         String title = "";
         String key = "";
-        List<String> keys = managerList.getKeys();
+        List<String> keys = managerList.getTitleKeys();
 
         if (areKeysNotNull(keys)) {
             key = keys.get(0);
