@@ -104,9 +104,9 @@ public class DatabaseReader {
         }
         throw new JSONException("Entry not found");
     }
-    
-    public List<String> getItemKeys(String key) throws Exception {
-        JSONObject items = getJsonContentByTitleKey(key);
+
+    public List<String> getItemKeys(String titleKey) throws Exception {
+        JSONObject items = getJsonContentByTitleKey(titleKey);
         Iterator<String> itemKeysIterator = items.keys();
         List<String> itemKeys = new ArrayList<>();
         while (itemKeysIterator.hasNext()) {

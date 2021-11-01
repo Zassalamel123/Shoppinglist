@@ -2,6 +2,7 @@ package managerlists;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,30 +45,54 @@ public class ManagerListTest {
 
         when(mockDatabaseReader.getJsonContent()).thenReturn(jsonContent);
         when(mockDatabaseWriter.getJsonCollection()).thenReturn(jsonContent);
-        when(mockDatabaseReader.getKeysFromJsonArray()).thenReturn(keys);
     }
 
     @Test
-    public void getJsonContentTest() throws JSONException {
+    public void getJsonContent() throws JSONException {
         JSONArray actual = managerList.getJsonContent();
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void getKeysTest() {
-        List<String> keys = managerList.getKeys();
+    public void getKeys() throws Exception {
+        when(mockDatabaseReader.getTitleKeysFromJsonArray()).thenReturn(keys);
+        List<String> keys = managerList.getTitleKeys();
         String actual = keys.get(0);
         String expected = listName;
         Assertions.assertEquals(expected,actual);
     }
 
     @Test
-    public void saveToJsonTest() throws JSONException {
+    public void saveToJson() throws JSONException {
         managerList.saveToJson(listName, items);
         JSONArray actual = mockDatabaseWriter.getJsonCollection();
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void getJsonContentByKey() throws Exception {
+        JSONObject specificContent = new JSONObject("{" +
+                "    \"" + item1 + "\": false,\n" +
+                "    \"" + item2 + "\": false\n" +
+                "}");
+        when(mockDatabaseReader.getJsonContentByTitleKey(listName)).thenReturn(specificContent);
+        JSONObject actual = managerList.getJsonContentByKey(listName);
+        String expected = "{" + item1 + ":false," + item2 + ":false}";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void getItemKeys() throws Exception {
+        List<String> itemKeys = new ArrayList<>();
+        itemKeys.add(item1);
+        itemKeys.add(item2);
+        when(mockDatabaseReader.getItemKeys(listName)).thenReturn(itemKeys);
+        itemKeys = managerList.getItemKeys(listName);
+        String actual = itemKeys.get(0);
+        String expected = item1;
+        Assertions.assertEquals(expected,actual);
     }
 
     @AfterEach

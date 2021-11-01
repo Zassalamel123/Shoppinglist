@@ -37,10 +37,10 @@ public class ManagerList {
         return content;
     }
 
-    public List<String> getKeys() {
+    public List<String> getTitleKeys() {
         List<String> keys = null;
         try {
-            keys = databaseReader.getKeysFromJsonArray();
+            keys = databaseReader.getTitleKeysFromJsonArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,6 +57,16 @@ public class ManagerList {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getItemKeys(String titleKey) {
+        List<String> itemKeys = null;
+        try {
+            itemKeys = databaseReader.getItemKeys(titleKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return itemKeys;
     }
 
     //todo overrite titlelist for duplicate?
