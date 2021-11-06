@@ -3,6 +3,7 @@ package ressourcelists;
 import android.content.Context;
 import org.json.JSONArray;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +26,8 @@ public class DatabaseWriterTest {
     private List<String> items;
     private String listName = "Aldi";
     private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testWriterItemList.json";
+    private final String FILE_TEST2 = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
+    private final String FILE_TEST3 = "src\\test\\java\\ressourcelists\\testWriterItemList3.json";
 
     private final Context mockContext = mock(Context.class);
 
@@ -34,7 +37,7 @@ public class DatabaseWriterTest {
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
-        databaseWriter.setJsonFilePath(FILE_TEST);
+        databaseWriter.setFilePath(FILE_TEST);
 
         when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
         when(mockContext.openFileOutput(FILE_TEST, Context.MODE_APPEND)).thenReturn(new FileOutputStream(FILE_TEST));
@@ -45,19 +48,37 @@ public class DatabaseWriterTest {
     }
 
     @Test
-    public void saveListToJson() throws Exception {
-        databaseWriter.saveListToJson(listName, items);
+    public void saveItemList() throws Exception {
+        databaseWriter.saveItemList(listName, items);
         JSONArray actual = databaseWriter.getJsonCollection();
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void setJsonFilePath() {
-        String testJsonFile = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
-        databaseWriter.setJsonFilePath(testJsonFile);
+    public void setFilePath() {
+        String testJsonFile = "src\\test\\java\\ressourcelists\\testPathWriterItemList.json";
+
+        databaseWriter.setFilePath(testJsonFile);
         String expected = testJsonFile;
-        String actual = databaseWriter.getJsonFilePath();
+        String actual = databaseWriter.getFilePath();
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updateItemValue() throws Exception {
+        databaseWriter.setFilePath(FILE_TEST2);
+        when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST3));
+        JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
+        databaseWriter.setJsonCollection(mockedJsonArray);
+        JSONObject mockedItemsContent = new JSONObject("{"+
+                item2 + ": false," +
+                item1 + ": true" +
+"}");
+
+        databaseWriter.updateItemValue(listName, mockedItemsContent, 0);
+        JSONArray actual = databaseWriter.getJsonCollection();
+        String expected = "[{" + listName + ":{" + item1 + ":true," + item2 + ":false}}]";
+        JSONAssert.assertEquals(expected, actual, true);
     }
 }

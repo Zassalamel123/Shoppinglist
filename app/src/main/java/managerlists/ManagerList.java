@@ -17,20 +17,20 @@ public class ManagerList {
         this.databaseWriter = databaseWriter;
     }
 
-    public JSONArray getJsonContent() {
+    public JSONArray getAllContents() {
         JSONArray content = new JSONArray();
         try {
-            content = databaseReader.getJsonContent();
+            content = databaseReader.getAllContents();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return content;
     }
 
-    public JSONObject getJsonContentByKey(String key) {
+    public JSONObject getItemContentsByTitleKey(String key) {
         JSONObject content = null;
         try {
-            content = databaseReader.getJsonContentByTitleKey(key);
+            content = databaseReader.getItemContentsByTitleKey(key);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,23 +40,49 @@ public class ManagerList {
     public List<String> getTitleKeys() {
         List<String> keys = null;
         try {
-            keys = databaseReader.getTitleKeysFromJsonArray();
+            keys = databaseReader.getTitleKeys();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return keys;
     }
 
-    public void saveToJson(String listName, List<String> items) {
+    public void saveItemList(String listName, List<String> items) {
         try {
-            if (databaseReader.doesFileExist()) {
-                JSONArray jsonArray = databaseReader.getJsonContent();
-                databaseWriter.setJsonCollection(jsonArray);
-            }
-            databaseWriter.saveListToJson(listName, items);
+            setCollectionIfFileExists();
+            databaseWriter.saveItemList(listName, items);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateItemValue(String titleKey, String itemKey, boolean itemValue) {
+        int index;
+        JSONObject itemContents = null;
+        try {
+            setCollectionIfFileExists();
+            index = databaseReader.getIndexFromJsonCollection(titleKey);
+            itemContents = databaseReader.getItemContentsByTitleKey(titleKey);
+            itemContents.put(itemKey, itemValue);
+            databaseWriter.updateItemValue(titleKey, itemContents, index);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setCollectionIfFileExists() throws Exception {
+        if (doesFileExist()) {
+            setJsonCollectionForWriting();
+        }
+    }
+
+    private void setJsonCollectionForWriting() throws Exception {
+        JSONArray jsonArray = databaseReader.getAllContents();
+        databaseWriter.setJsonCollection(jsonArray);
+    }
+
+    private boolean doesFileExist() {
+        return databaseReader.doesFileExist();
     }
 
     public List<String> getItemKeys(String titleKey) {

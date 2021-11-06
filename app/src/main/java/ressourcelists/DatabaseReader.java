@@ -22,7 +22,7 @@ public class DatabaseReader {
     }
 
     public boolean doesListNameExist(String listName) throws Exception {
-        titleKeys = getTitleKeysFromJsonArray();
+        titleKeys = getTitleKeys();
         return lookUpDuplicateListName(listName);
     }
 
@@ -30,8 +30,8 @@ public class DatabaseReader {
         return titleKeys.contains(listName);
     }
 
-    public List<String> getTitleKeysFromJsonArray() throws Exception {
-        JSONArray jsonArray = getJsonContent();
+    public List<String> getTitleKeys() throws Exception {
+        JSONArray jsonArray = getAllContents();
         return extractJsonArrayKeys(jsonArray);
     }
 
@@ -44,17 +44,17 @@ public class DatabaseReader {
         return titleKeys;
     }
 
-    public JSONArray getJsonContent() throws Exception {
-        setJsonFilePath(jsonFile);
-        String content = readJsonFile();
+    public JSONArray getAllContents() throws Exception {
+        setFilePath(jsonFile);
+        String content = readFileIntoString();
         return stringToJson(content);
     }
 
-    public void setJsonFilePath(String jsonFile) {
+    public void setFilePath(String jsonFile) {
         this.jsonFile = jsonFile;
     }
 
-    private String readJsonFile() throws Exception {
+    private String readFileIntoString() throws Exception {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.openFileInput(jsonFile)))) {
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();
@@ -79,7 +79,7 @@ public class DatabaseReader {
         }
     }
 
-    public String getJsonFilePath() {
+    public String getFilePath() {
         return jsonFile;
     }
 
@@ -91,13 +91,13 @@ public class DatabaseReader {
         return false;
     }
 
-    public JSONObject getJsonContentByTitleKey(String key) throws Exception {
-        JSONArray content = getJsonContent();
+    public JSONObject getItemContentsByTitleKey(String titleKey) throws Exception {
+        JSONArray content = getAllContents();
         Object specificContent;
         for (int index = 0; index < content.length(); index++) {
             Object entry = content.opt(index);
             JSONObject jsonObject = new JSONObject(entry.toString());
-            specificContent = jsonObject.opt(key);
+            specificContent = jsonObject.opt(titleKey);
             if (specificContent != null) {
                 return new JSONObject(specificContent.toString());
             }
@@ -106,12 +106,24 @@ public class DatabaseReader {
     }
 
     public List<String> getItemKeys(String titleKey) throws Exception {
-        JSONObject items = getJsonContentByTitleKey(titleKey);
+        JSONObject items = getItemContentsByTitleKey(titleKey);
         Iterator<String> itemKeysIterator = items.keys();
         List<String> itemKeys = new ArrayList<>();
         while (itemKeysIterator.hasNext()) {
             itemKeys.add(itemKeysIterator.next());
         }
         return itemKeys;
+    }
+
+    public int getIndexFromJsonCollection(String titleKey) throws Exception {
+        JSONArray content = getAllContents();
+        for (int index = 0; index < content.length(); index++) {
+            Object entry = content.opt(index);
+            JSONObject specificContent = new JSONObject(entry.toString());
+            if (specificContent.has(titleKey)) {
+                return index;
+            }
+        }
+        throw new JSONException("Entry not found");
     }
 }

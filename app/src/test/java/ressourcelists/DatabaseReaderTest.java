@@ -31,7 +31,7 @@ public class DatabaseReaderTest {
     @BeforeEach
     public void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
-        databaseReader.setJsonFilePath(FILE_TEST);
+        databaseReader.setFilePath(FILE_TEST);
 
         when(mockContext.openFileInput(FILE_TEST)).thenReturn(new FileInputStream(FILE_TEST));
     }
@@ -41,26 +41,27 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void getKeysFromJsonArray() throws Exception {
-        List<String> keys = databaseReader.getTitleKeysFromJsonArray();
+    public void getTitleKeys() throws Exception {
+        List<String> keys = databaseReader.getTitleKeys();
         Assertions.assertEquals(listName1, keys.get(0));
         Assertions.assertEquals(listName2, keys.get(1));
     }
 
     @Test
-    public void getJsonContent() throws Exception {
-        JSONArray actual = databaseReader.getJsonContent();
+    public void getAllContents() throws Exception {
+        JSONArray actual = databaseReader.getAllContents();
         String expected = "[{" + listName1 + ":{" + item1 + ":false," + item2 + ":false}}," +
                 " {" + listName2 + ":{ " + item3 + ":false," + item4 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void setJsonFilePath() {
+    public void setFilePath() {
         String testJsonFile = "src\\test\\java\\ressourcelists\\testReaderItemList2.json";
-        databaseReader.setJsonFilePath(testJsonFile);
+
+        databaseReader.setFilePath(testJsonFile);
         String expected = testJsonFile;
-        String actual = databaseReader.getJsonFilePath();
+        String actual = databaseReader.getFilePath();
         Assertions.assertEquals(expected, actual);
     }
 
@@ -77,8 +78,8 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void getJsonContentByTitleKey() throws Exception {
-        JSONObject firstEntryContent = databaseReader.getJsonContentByTitleKey(listName1);
+    public void getItemContentsByTitleKey() throws Exception {
+        JSONObject firstEntryContent = databaseReader.getItemContentsByTitleKey(listName1);
         String actual = firstEntryContent.toString();
         String expected = "{" + item1 + ":false," + item2 + ":false}";
         JSONAssert.assertEquals(expected, actual, true);
@@ -89,5 +90,12 @@ public class DatabaseReaderTest {
         List<String> itemKeys = databaseReader.getItemKeys(listName1);
         Assertions.assertEquals(item1, itemKeys.get(1));
         Assertions.assertEquals(item2, itemKeys.get(0));
+    }
+
+    @Test
+    public void getIndexFromJsonCollection() throws Exception {
+        int expected = 1;
+        int actual = databaseReader.getIndexFromJsonCollection(listName2);
+        Assertions.assertEquals(expected, actual);
     }
 }
