@@ -78,9 +78,9 @@ public class ManagerListTest {
                 "    \"" + item1 + "\": false,\n" +
                 "    \"" + item2 + "\": false\n" +
                 "}");
-        when(mockDatabaseReader.getItemContentsByTitleKey(listName)).thenReturn(specificContent);
+        when(mockDatabaseReader.getItemsByTitleKey(listName)).thenReturn(specificContent);
 
-        JSONObject actual = managerList.getItemContentsByTitleKey(listName);
+        JSONObject actual = managerList.getItemsByTitleKey(listName);
         String expected = "{" + item1 + ":false," + item2 + ":false}";
         JSONAssert.assertEquals(expected, actual, true);
     }
@@ -106,12 +106,25 @@ public class ManagerListTest {
                 "    \"" + item2 + "\": false\n" +
                 "}");
         when(mockDatabaseReader.getIndexFromJsonCollection(listName)).thenReturn(index);
-        when(mockDatabaseReader.getItemContentsByTitleKey(listName)).thenReturn(specificContent);
+        when(mockDatabaseReader.getItemsByTitleKey(listName)).thenReturn(specificContent);
 
         managerList.updateItemValue(listName, item1, true);
-        JSONObject actual = managerList.getItemContentsByTitleKey(listName);
+        JSONObject actual = managerList.getItemsByTitleKey(listName);
         String expected = "{" + item1 + ":true," + item2 + ":false}";
         JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void getItemValue() throws Exception {
+        JSONObject specificContent = new JSONObject("{" +
+                "    \"" + item1 + "\": true,\n" +
+                "    \"" + item2 + "\": false\n" +
+                "}");
+        when(mockDatabaseReader.getItemsByTitleKey(listName)).thenReturn(specificContent);
+
+        boolean actual = (boolean) managerList.getItemValue(listName, item1);
+        boolean expected = true;
+        Assertions.assertEquals(expected,actual);
     }
 
     @AfterEach

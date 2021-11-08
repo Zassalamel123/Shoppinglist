@@ -82,7 +82,7 @@ public class ListCreationActivity extends AppCompatActivity {
                 EditText editText = (EditText) findViewById(R.id.listTitle);
                 String title = editText.getText().toString();
                 editText.setText(title);
-                managerList.saveToJson(title, saveItemsToList());
+                managerList.saveItemList(title, saveItemsToList());
                 Intent i = new Intent(ListCreationActivity.this, ManagerListActivity.class);
                 ListCreationActivity.super.finish();
                 startActivity(i);

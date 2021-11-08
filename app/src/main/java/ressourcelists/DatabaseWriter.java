@@ -13,7 +13,7 @@ public class DatabaseWriter {
 
     private JSONArray jsonCollection;
 
-    private String jsonFile = "itemList.json"; //todo change path for android?
+    private String jsonFile = "itemList.json";
     private Context context;
 
     public DatabaseWriter(Context context) {

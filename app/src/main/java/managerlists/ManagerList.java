@@ -27,14 +27,29 @@ public class ManagerList {
         return content;
     }
 
-    public JSONObject getItemContentsByTitleKey(String key) {
-        JSONObject content = null;
+    public JSONObject getItemsByTitleKey(String key) {
+        JSONObject items = null;
         try {
-            content = databaseReader.getItemContentsByTitleKey(key);
+            items = databaseReader.getItemsByTitleKey(key);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return content;
+        return items;
+    }
+
+    public Object getItemValue(String key, String item) {
+        JSONObject items;
+        Object itemValue = null;
+        try {
+            items = databaseReader.getItemsByTitleKey(key);
+            if (items.has(item)) {
+                itemValue = items.get(item);
+            }else
+                throw new Exception("Item not found");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return itemValue;
     }
 
     public List<String> getTitleKeys() {
@@ -60,9 +75,10 @@ public class ManagerList {
         int index;
         JSONObject itemContents = null;
         try {
-            setCollectionIfFileExists();
+//            setCollectionIfFileExists();
+            setJsonCollectionForWriting();
             index = databaseReader.getIndexFromJsonCollection(titleKey);
-            itemContents = databaseReader.getItemContentsByTitleKey(titleKey);
+            itemContents = databaseReader.getItemsByTitleKey(titleKey);
             itemContents.put(itemKey, itemValue);
             databaseWriter.updateItemValue(titleKey, itemContents, index);
         } catch (Exception e) {

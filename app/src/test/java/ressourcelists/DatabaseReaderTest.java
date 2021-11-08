@@ -79,7 +79,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void getItemContentsByTitleKey() throws Exception {
-        JSONObject firstEntryContent = databaseReader.getItemContentsByTitleKey(listName1);
+        JSONObject firstEntryContent = databaseReader.getItemsByTitleKey(listName1);
         String actual = firstEntryContent.toString();
         String expected = "{" + item1 + ":false," + item2 + ":false}";
         JSONAssert.assertEquals(expected, actual, true);

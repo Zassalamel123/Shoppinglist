@@ -50,10 +50,6 @@ public class DatabaseReader {
         return stringToJson(content);
     }
 
-    public void setFilePath(String jsonFile) {
-        this.jsonFile = jsonFile;
-    }
-
     private String readFileIntoString() throws Exception {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.openFileInput(jsonFile)))) {
             String line = bufferedReader.readLine();
@@ -79,6 +75,10 @@ public class DatabaseReader {
         }
     }
 
+    public void setFilePath(String jsonFile) {
+        this.jsonFile = jsonFile;
+    }
+
     public String getFilePath() {
         return jsonFile;
     }
@@ -91,7 +91,7 @@ public class DatabaseReader {
         return false;
     }
 
-    public JSONObject getItemContentsByTitleKey(String titleKey) throws Exception {
+    public JSONObject getItemsByTitleKey(String titleKey) throws Exception {
         JSONArray content = getAllContents();
         Object specificContent;
         for (int index = 0; index < content.length(); index++) {
@@ -106,7 +106,7 @@ public class DatabaseReader {
     }
 
     public List<String> getItemKeys(String titleKey) throws Exception {
-        JSONObject items = getItemContentsByTitleKey(titleKey);
+        JSONObject items = getItemsByTitleKey(titleKey);
         Iterator<String> itemKeysIterator = items.keys();
         List<String> itemKeys = new ArrayList<>();
         while (itemKeysIterator.hasNext()) {
