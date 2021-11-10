@@ -39,8 +39,8 @@ public class ManagerListTest {
     public void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
         databaseWriter = new DatabaseWriter(mockContext);
-        databaseWriter.setJsonFilePath(FILE_TEST);
-        databaseReader.setJsonFilePath(FILE_TEST);
+        databaseWriter.setFilePath(FILE_TEST);
+        databaseReader.setFilePath(FILE_TEST);
         managerList = new ManagerList(databaseReader, databaseWriter);
 
         items = new ArrayList<>();
@@ -61,8 +61,9 @@ public class ManagerListTest {
 
     @Test
     public void saveMultipleListsTest() throws JSONException, FileNotFoundException {
-        managerList.saveToJson(listName, items);
-
+        managerList.saveItemList(listName, items);
+//        JSONArray actual = managerList.getAllContents();
+//
 //        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
 //        JSONAssert.assertEquals(expected, actual, true);
     }

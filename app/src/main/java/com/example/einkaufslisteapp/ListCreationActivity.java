@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
@@ -61,10 +62,9 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private List<String> saveItemsToList() {
-
         List<String> items = new ArrayList<>();
 
-        for(int id : itemCreationIds){
+        for (int id : itemCreationIds) {
             EditText editText = (EditText) findViewById(id);
             String item = editText.getText().toString();
             items.add(item);
@@ -74,20 +74,41 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private void saveShoppingList() {
-
         Button saveListButton = findViewById(R.id.saveListButton);
+        EditText editText = (EditText) findViewById(R.id.listTitle);
+        Toast toast = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
+
         saveListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = (EditText) findViewById(R.id.listTitle);
-                String title = editText.getText().toString();
-                editText.setText(title);
-                managerList.saveItemList(title, saveItemsToList());
-                Intent i = new Intent(ListCreationActivity.this, ManagerListActivity.class);
-                ListCreationActivity.super.finish();
-                startActivity(i);
+                if (areFieldsEmpty()) {
+                    toast.show();
+                } else {
+                    String title = editText.getText().toString();
+                    managerList.saveItemList(title, saveItemsToList());
+                    Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+                    ListCreationActivity.super.finish();
+                    startActivity(intent);
+                }
             }
         });
     }
 
+    private boolean areFieldsEmpty() {
+        for (int id : itemCreationIds) {
+            EditText editText = (EditText) findViewById(id);
+            if (isFieldEmpty(editText)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isFieldEmpty(EditText editText) {
+        String field = editText.getText().toString();
+        if (field.equals("")) {
+            return true;
+        }
+        return false;
+    }
 }
