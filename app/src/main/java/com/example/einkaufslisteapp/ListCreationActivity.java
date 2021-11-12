@@ -13,6 +13,7 @@ import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListCreationActivity extends AppCompatActivity {
@@ -76,13 +77,16 @@ public class ListCreationActivity extends AppCompatActivity {
     private void saveShoppingList() {
         Button saveListButton = findViewById(R.id.saveListButton);
         EditText editText = (EditText) findViewById(R.id.listTitle);
-        Toast toast = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
+        Toast toastEmptyField = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
+        Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
 
         saveListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (areFieldsEmpty()) {
-                    toast.show();
+                if (areFieldsEmpty() | isTitleEmpty()) {
+                    toastEmptyField.show();
+                } else if (areFieldNamesDuplicated()) {
+                    toastDuplicateField.show();
                 } else {
                     String title = editText.getText().toString();
                     managerList.saveItemList(title, saveItemsToList());
@@ -97,17 +101,31 @@ public class ListCreationActivity extends AppCompatActivity {
     private boolean areFieldsEmpty() {
         for (int id : itemCreationIds) {
             EditText editText = (EditText) findViewById(id);
-            if (isFieldEmpty(editText)) {
+            String field = editText.getText().toString();
+            if (field.equals("")) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isFieldEmpty(EditText editText) {
+    private boolean isTitleEmpty() {
+        EditText editText = (EditText) findViewById(R.id.listTitle);
         String field = editText.getText().toString();
         if (field.equals("")) {
             return true;
+        }
+        return false;
+    }
+
+    private boolean areFieldNamesDuplicated() {
+        HashSet<String> hashSet = new HashSet<>();
+         for (int id : itemCreationIds) {
+            EditText editText = (EditText) findViewById(id);
+            String field = editText.getText().toString();
+             if (hashSet.add(field) == false) {
+                 return true;
+             }
         }
         return false;
     }
