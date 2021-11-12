@@ -27,6 +27,7 @@ public class ListCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
         getTitleListFromPreviousActivity();
+        loadItemsFromPreviousList();
         saveShoppingList();
     }
 
@@ -35,6 +36,17 @@ public class ListCreationActivity extends AppCompatActivity {
         String title = intent.getStringExtra(ManagerListActivity.TITLE_NAME);
         EditText editText = (EditText) findViewById(R.id.listTitle);
         editText.setText(title);
+    }
+
+    private void loadItemsFromPreviousList() {
+        EditText editText = (EditText) findViewById(R.id.listTitle);
+        String title = editText.getText().toString();
+        List<String> itemKeys = managerList.getItemKeys(title);
+        int index = 0;
+        for (int id : itemCreationIds) {
+            EditText editTextItem = (EditText) findViewById(id);
+            editTextItem.setText(itemKeys.get(index++));
+        }
     }
 
     private void addItem() {
