@@ -42,10 +42,12 @@ public class ListCreationActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.listTitle);
         String title = editText.getText().toString();
         List<String> itemKeys = managerList.getItemKeys(title);
-        int index = 0;
-        for (int id : itemCreationIds) {
-            EditText editTextItem = (EditText) findViewById(id);
-            editTextItem.setText(itemKeys.get(index++));
+        if (itemKeys != null) {
+            int index = 0;
+            for (int id : itemCreationIds) {
+                EditText editTextItem = (EditText) findViewById(id);
+                editTextItem.setText(itemKeys.get(index++));
+            }
         }
     }
 

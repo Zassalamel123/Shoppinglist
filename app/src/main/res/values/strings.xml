@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EinkaufslisteApp</string>
+    <string name="app_name">Einkaufsliste</string>
     <string name="title">Einkaufsliste</string>
     <string name="button_start_menu">Liste verwalten</string>
     <string name="button_add_list">Liste hinzufügen</string>
