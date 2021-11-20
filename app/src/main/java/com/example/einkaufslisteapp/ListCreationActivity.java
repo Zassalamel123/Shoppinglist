@@ -3,10 +3,12 @@ package com.example.einkaufslisteapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
@@ -20,15 +22,35 @@ public class ListCreationActivity extends AppCompatActivity {
 
     public EinkaufsListe einkaufsListe = new EinkaufsListe();
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
-    private final int[] itemCreationIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
+    private int id = 0;
+    private int[] itemCreationIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
+    List<EditText> editTextItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_creation);
+        setToolBar();
+        goToPreviousActivity();
         getTitleListFromPreviousActivity();
         loadItemsFromPreviousList();
+        addItem();
         saveShoppingList();
+    }
+
+    private void setToolBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void goToPreviousActivity() {
+        ImageView backArrow = findViewById(R.id.toolBarArrowBack);
+        backArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+            ListCreationActivity.super.finish();
+            startActivity(intent);
+        });
     }
 
     private void getTitleListFromPreviousActivity() {
@@ -53,19 +75,54 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private void addItem() {
 
-//        ConstraintLayout mLayout = (ConstraintLayout) findViewById(R.id.constraintLayout);
-//        Button mButton = (Button) findViewById(R.id.button);
-//        mButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EditText editText = new EditText(ListCreationActivity.this);
-//                editText.setLayoutParams(new
-//                        ConstraintLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                        ConstraintLayout.LayoutParams.WRAP_CONTENT));
-//                mLayout.addView(editText);
-//            }
-//        });
+        ImageView addItem = findViewById(R.id.toolBarAdd);
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEditText();
+            }
+        });
 
+    }
+
+    private void addEditText() {
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+
+        EditText editText = new EditText(this);
+        editText.setText("test123123");
+        editText.setId(id++);
+        editText.setEms(10);
+
+        constraintLayout.addView(editText);
+        constraintSet.clone(constraintLayout);
+
+        constraintSet.connect(editText.getId(), ConstraintSet.TOP, R.id.item8, ConstraintSet.BOTTOM, 16);
+        constraintSet.connect(editText.getId(), ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+        constraintSet.connect(editText.getId(), ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+//        constraintSet.constrainWidth(editText.getId(), ConstraintSet.WRAP_CONTENT);
+//        constraintSet.constrainHeight(editText.getId(), ConstraintSet.WRAP_CONTENT);
+
+//        constraintSet.connect(editText.getId(), ConstraintSet.BOTTOM, R.id.constraintLayout, ConstraintSet.BOTTOM);
+
+
+//        constraintSet.connect(R.id.button2, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+//        constraintSet.connect(R.id.button2, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+//        constraintSet.connect(R.id.button2, ConstraintSet.BOTTOM, R.id.constraintLayout, ConstraintSet.BOTTOM);
+//
+//        constraintSet.connect(R.id.saveListButton, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+//        constraintSet.connect(R.id.saveListButton, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+//        constraintSet.connect(R.id.saveListButton, ConstraintSet.BOTTOM, R.id.button2, ConstraintSet.TOP);
+//
+//        constraintSet.connect(R.id.item8, ConstraintSet.TOP, R.id.constraintLayout, ConstraintSet.TOP, 16);
+//        constraintSet.connect(R.id.item8, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+//        constraintSet.connect(R.id.item8, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+
+
+        constraintSet.applyTo(constraintLayout);
+
+
+        editTextItems.add(editText);
     }
 
     private void deleteItem() {
@@ -89,12 +146,12 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private void saveShoppingList() {
-        Button saveListButton = findViewById(R.id.saveListButton);
+        ImageView saveListImage = findViewById(R.id.toolBarSave);
         EditText editText = (EditText) findViewById(R.id.listTitle);
         Toast toastEmptyField = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
         Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
 
-        saveListButton.setOnClickListener(new View.OnClickListener() {
+        saveListImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (areFieldsEmpty() | isTitleEmpty()) {
@@ -134,12 +191,12 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private boolean areFieldNamesDuplicated() {
         HashSet<String> hashSet = new HashSet<>();
-         for (int id : itemCreationIds) {
+        for (int id : itemCreationIds) {
             EditText editText = (EditText) findViewById(id);
             String field = editText.getText().toString();
-             if (hashSet.add(field) == false) {
-                 return true;
-             }
+            if (hashSet.add(field) == false) {
+                return true;
+            }
         }
         return false;
     }
