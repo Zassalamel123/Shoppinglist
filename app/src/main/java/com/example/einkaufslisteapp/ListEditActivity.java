@@ -2,20 +2,23 @@ package com.example.einkaufslisteapp;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import managerlists.ManagerList;
-import org.json.JSONObject;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListEditActivity extends AppCompatActivity {
 
-    private final int[] itemEditIds = new int[]{R.id.editItem1, R.id.editItem2, R.id.editItem3, R.id.editItem4, R.id.editItem5, R.id.editItem6, R.id.editItem7, R.id.editItem8};
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
+    private List<TextView> textViewItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +40,43 @@ public class ListEditActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.editTitleList);
         String title = textView.getText().toString();
         List<String> itemKeys = managerList.getItemKeys(title);
-        int index = 0;
-        for (int id : itemEditIds) {
-            TextView textViewItem = (TextView) findViewById(id);
-            textViewItem.setText(itemKeys.get(index++));
-            checkMarkItemBasedOnValue(title, textViewItem);
+
+        for (String key : itemKeys) {
+            TextView item = generateItemField(key);
+            checkMarkItemBasedOnValue(title, item);
+            applyItemToView(item);
+            textViewItems.add(item);
         }
+    }
+
+    private TextView generateItemField(String key) {
+        TextView textView = new TextView(this);
+        textView.setId(View.generateViewId());
+        textView.setText(key);
+        textView.setClickable(true);
+        textView.setTextSize(24f);
+        return textView;
+    }
+
+    private void applyItemToView(TextView item) {
+        ConstraintLayout constraintLayout = findViewById(R.id.listEditConstraintLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+
+        constraintLayout.addView(item);
+        constraintSet.clone(constraintLayout);
+
+        if (textViewItems.isEmpty()) {
+            constraintSet.connect(item.getId(), ConstraintSet.TOP, R.id.editTitleList, ConstraintSet.BOTTOM, 16);
+            constraintSet.connect(item.getId(), ConstraintSet.LEFT, R.id.listEditConstraintLayout, ConstraintSet.LEFT);
+            constraintSet.connect(item.getId(), ConstraintSet.RIGHT, R.id.listEditConstraintLayout, ConstraintSet.RIGHT);
+        } else{
+            TextView lastItem = textViewItems.get(textViewItems.size()-1);
+            constraintSet.connect(item.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 16);
+            constraintSet.connect(item.getId(), ConstraintSet.LEFT, R.id.listEditConstraintLayout, ConstraintSet.LEFT);
+            constraintSet.connect(item.getId(), ConstraintSet.RIGHT, R.id.listEditConstraintLayout, ConstraintSet.RIGHT);
+        }
+
+        constraintSet.applyTo(constraintLayout);
     }
 
     private void checkMarkItemBasedOnValue(String title, TextView textViewItem) {
@@ -61,11 +95,9 @@ public class ListEditActivity extends AppCompatActivity {
     private void checkMarkItem() {
         TextView textView = (TextView) findViewById(R.id.editTitleList);
         String title = textView.getText().toString();
-        JSONObject jsonObject = managerList.getItemsByTitleKey(title);
-        for (int id : itemEditIds) {
-            TextView textViewItem = (TextView) findViewById(id);
-            textViewItem.setOnClickListener(v->{
-                checkMarkItemOnClick(title, textViewItem);
+        for (TextView item : textViewItems) {
+            item.setOnClickListener(v->{
+                checkMarkItemOnClick(title, item);
             });
         }
     }

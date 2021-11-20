@@ -3,13 +3,11 @@ package com.example.einkaufslisteapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import managerlists.EinkaufsListe;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
@@ -20,11 +18,8 @@ import java.util.List;
 
 public class ListCreationActivity extends AppCompatActivity {
 
-    public EinkaufsListe einkaufsListe = new EinkaufsListe();
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
-    private int id = 0;
-    private int[] itemCreationIds = new int[]{R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8};
-    List<EditText> editTextItems = new ArrayList<>();
+    private List<EditText> editTextItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +28,6 @@ public class ListCreationActivity extends AppCompatActivity {
         setToolBar();
         goToPreviousActivity();
         getTitleListFromPreviousActivity();
-        loadItemsFromPreviousList();
         addItem();
         saveShoppingList();
     }
@@ -60,88 +54,75 @@ public class ListCreationActivity extends AppCompatActivity {
         editText.setText(title);
     }
 
-    private void loadItemsFromPreviousList() {
-        EditText editText = (EditText) findViewById(R.id.listTitle);
-        String title = editText.getText().toString();
-        List<String> itemKeys = managerList.getItemKeys(title);
-        if (itemKeys != null) {
-            int index = 0;
-            for (int id : itemCreationIds) {
-                EditText editTextItem = (EditText) findViewById(id);
-                editTextItem.setText(itemKeys.get(index++));
-            }
-        }
-    }
+//    private void loadItemsFromPreviousList() {
+//        EditText editText = (EditText) findViewById(R.id.listTitle);
+//        String title = editText.getText().toString();
+//        List<String> itemKeys = managerList.getItemKeys(title);
+//        if (itemKeys != null) {
+//            int index = 0;
+//            for (int id : itemCreationIds) {
+//                EditText editTextItem = (EditText) findViewById(id);
+//                editTextItem.setText(itemKeys.get(index++));
+//            }
+//        }
+//    }
 
     private void addItem() {
-
         ImageView addItem = findViewById(R.id.toolBarAdd);
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addEditText();
+                EditText item = generateItemField();
+                applyItemToView(item);
+                saveEditTextItemToList(item);
             }
         });
 
     }
 
-    private void addEditText() {
+    private EditText generateItemField() {
+        EditText editText = new EditText(this);
+        editText.setHint("item");
+        editText.setId(View.generateViewId());
+        editText.setEms(10);
+        return editText;
+    }
+
+    private void applyItemToView(EditText item) {
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
         ConstraintSet constraintSet = new ConstraintSet();
 
-        EditText editText = new EditText(this);
-        editText.setText("test123123");
-        editText.setId(id++);
-        editText.setEms(10);
-
-        constraintLayout.addView(editText);
+        constraintLayout.addView(item);
         constraintSet.clone(constraintLayout);
 
-        constraintSet.connect(editText.getId(), ConstraintSet.TOP, R.id.item8, ConstraintSet.BOTTOM, 16);
-        constraintSet.connect(editText.getId(), ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
-        constraintSet.connect(editText.getId(), ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
-//        constraintSet.constrainWidth(editText.getId(), ConstraintSet.WRAP_CONTENT);
-//        constraintSet.constrainHeight(editText.getId(), ConstraintSet.WRAP_CONTENT);
-
-//        constraintSet.connect(editText.getId(), ConstraintSet.BOTTOM, R.id.constraintLayout, ConstraintSet.BOTTOM);
-
-
-//        constraintSet.connect(R.id.button2, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
-//        constraintSet.connect(R.id.button2, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
-//        constraintSet.connect(R.id.button2, ConstraintSet.BOTTOM, R.id.constraintLayout, ConstraintSet.BOTTOM);
-//
-//        constraintSet.connect(R.id.saveListButton, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
-//        constraintSet.connect(R.id.saveListButton, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
-//        constraintSet.connect(R.id.saveListButton, ConstraintSet.BOTTOM, R.id.button2, ConstraintSet.TOP);
-//
-//        constraintSet.connect(R.id.item8, ConstraintSet.TOP, R.id.constraintLayout, ConstraintSet.TOP, 16);
-//        constraintSet.connect(R.id.item8, ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
-//        constraintSet.connect(R.id.item8, ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
-
+        if (editTextItems.isEmpty()) {
+            constraintSet.connect(item.getId(), ConstraintSet.TOP, R.id.listTitle, ConstraintSet.BOTTOM, 16);
+            constraintSet.connect(item.getId(), ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+            constraintSet.connect(item.getId(), ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+        } else{
+            EditText lastItem = editTextItems.get(editTextItems.size()-1);
+            constraintSet.connect(item.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 16);
+            constraintSet.connect(item.getId(), ConstraintSet.LEFT, R.id.constraintLayout, ConstraintSet.LEFT);
+            constraintSet.connect(item.getId(), ConstraintSet.RIGHT, R.id.constraintLayout, ConstraintSet.RIGHT);
+        }
 
         constraintSet.applyTo(constraintLayout);
+    }
 
-
-        editTextItems.add(editText);
+    private void saveEditTextItemToList(EditText item) {
+        editTextItems.add(item);
     }
 
     private void deleteItem() {
 
     }
 
-    private void modifyItem() {
-
-    }
-
     private List<String> saveItemsToList() {
         List<String> items = new ArrayList<>();
-
-        for (int id : itemCreationIds) {
-            EditText editText = (EditText) findViewById(id);
-            String item = editText.getText().toString();
+        for (EditText editTextItem : editTextItems) {
+            String item = editTextItem.getText().toString();
             items.add(item);
         }
-
         return items;
     }
 
@@ -170,9 +151,8 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private boolean areFieldsEmpty() {
-        for (int id : itemCreationIds) {
-            EditText editText = (EditText) findViewById(id);
-            String field = editText.getText().toString();
+        for (EditText editTextItem : editTextItems) {
+            String field = editTextItem.getText().toString();
             if (field.equals("")) {
                 return true;
             }
@@ -191,9 +171,8 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private boolean areFieldNamesDuplicated() {
         HashSet<String> hashSet = new HashSet<>();
-        for (int id : itemCreationIds) {
-            EditText editText = (EditText) findViewById(id);
-            String field = editText.getText().toString();
+        for (EditText editTextItem : editTextItems) {
+            String field = editTextItem.getText().toString();
             if (hashSet.add(field) == false) {
                 return true;
             }
