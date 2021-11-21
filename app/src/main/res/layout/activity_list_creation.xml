@@ -42,8 +42,19 @@
                     android:id="@+id/toolBarSave"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:tint="@color/black"
+                    android:clickable="true" app:layout_constraintEnd_toStartOf="@+id/toolBarDelete"
+                    android:layout_marginEnd="8dp"/>
+            <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/ic_baseline_delete_24"
+                    android:id="@+id/toolBarDelete"
+                    android:tint="@color/red"
                     app:layout_constraintEnd_toStartOf="@+id/toolBarAdd"
-                    android:layout_marginEnd="16dp" android:clickable="true"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="8dp" android:clickable="true"/>
             <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
