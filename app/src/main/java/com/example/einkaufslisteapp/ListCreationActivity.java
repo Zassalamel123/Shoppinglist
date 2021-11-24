@@ -20,6 +20,7 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     private List<EditText> editTextItems = new ArrayList<>();
+    public static final String CREATION_FLAG = "com.example.einkaufslisteapp.FLAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class ListCreationActivity extends AppCompatActivity {
         editText.setHint("item");
         editText.setId(View.generateViewId());
         editText.setEms(10);
+        editText.requestFocus();
         return editText;
     }
 
@@ -113,7 +115,7 @@ public class ListCreationActivity extends AppCompatActivity {
     private void deleteLastItem() {
         ImageView deleteItem = findViewById(R.id.toolBarDelete);
         deleteItem.setOnClickListener(v -> {
-            if (isFieldEmpty()) {
+            if (isItemFieldExisting()) {
                 toastFieldCanNotBeRemoved();
             } else {
                 int lastEntry = editTextItems.size() - 1;
@@ -124,12 +126,7 @@ public class ListCreationActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteField(EditText lastItem) {
-        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-        constraintLayout.removeView(lastItem);
-    }
-
-    private boolean isFieldEmpty() {
+    private boolean isItemFieldExisting() {
         if (editTextItems.isEmpty()) {
             return true;
         }
@@ -141,10 +138,14 @@ public class ListCreationActivity extends AppCompatActivity {
         toastNoEmptyField.show();
     }
 
+    private void deleteField(EditText lastItem) {
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        constraintLayout.removeView(lastItem);
+    }
+
     private void removeLastEditTextItemFromList(EditText item) {
         editTextItems.remove(item);
     }
-
 
     private List<String> saveItemsToList() {
         List<String> items = new ArrayList<>();
@@ -158,18 +159,17 @@ public class ListCreationActivity extends AppCompatActivity {
     private void saveShoppingList() {
         ImageView saveListImage = findViewById(R.id.toolBarSave);
         EditText editText = (EditText) findViewById(R.id.listTitle);
-        Toast toastEmptyField = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
-        Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
 
         saveListImage.setOnClickListener(v -> {
             if (areFieldsEmpty() | isTitleEmpty()) {
-                toastEmptyField.show();
+                toastEmptyField();
             } else if (areFieldNamesDuplicated()) {
-                toastDuplicateField.show();
+                toastDuplicateField();
             } else {
                 String title = editText.getText().toString();
                 managerList.saveItemList(title, saveItemsToList());
                 Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+                intent.putExtra(CREATION_FLAG, true);
                 ListCreationActivity.super.finish();
                 startActivity(intent);
             }
@@ -195,6 +195,11 @@ public class ListCreationActivity extends AppCompatActivity {
         return false;
     }
 
+    private void toastEmptyField() {
+        Toast toastEmptyField = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
+        toastEmptyField.show();
+    }
+
     private boolean areFieldNamesDuplicated() {
         HashSet<String> hashSet = new HashSet<>();
         for (EditText editTextItem : editTextItems) {
@@ -204,5 +209,10 @@ public class ListCreationActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void toastDuplicateField() {
+        Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
+        toastDuplicateField.show();
     }
 }
