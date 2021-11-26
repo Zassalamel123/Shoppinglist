@@ -28,6 +28,9 @@ public class DatabaseWriterTest {
     private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testWriterItemList.json";
     private final String FILE_TEST2 = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
     private final String FILE_TEST3 = "src\\test\\java\\ressourcelists\\testWriterItemList3.json";
+    private final String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
+    private final String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
+
 
     private final Context mockContext = mock(Context.class);
 
@@ -79,6 +82,17 @@ public class DatabaseWriterTest {
         databaseWriter.updateItemValue(listName, mockedItemsContent, 0);
         JSONArray actual = databaseWriter.getJsonCollection();
         String expected = "[{" + listName + ":{" + item1 + ":true," + item2 + ":false}}]";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void deleteList() throws Exception {
+        databaseWriter.setFilePath(FILE_TEST_DELETE_BEFORE);
+        when(mockContext.openFileOutput(FILE_TEST_DELETE_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_DELETE_AFTER));
+
+        databaseWriter.deleteList(0);
+        String expected = "[]";
+        JSONArray actual = databaseWriter.getJsonCollection();
         JSONAssert.assertEquals(expected, actual, true);
     }
 }

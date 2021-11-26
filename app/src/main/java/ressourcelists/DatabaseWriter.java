@@ -58,6 +58,11 @@ public class DatabaseWriter {
         writeJsonCollectionToFile(jsonCollection, jsonFile);
     }
 
+    public void deleteList(int index) throws Exception {
+        jsonCollection.remove(index);
+        writeJsonCollectionToFile(jsonCollection, jsonFile);
+    }
+
     public JSONArray getJsonCollection() {
         return jsonCollection;
     }
