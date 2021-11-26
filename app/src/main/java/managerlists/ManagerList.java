@@ -111,5 +111,14 @@ public class ManagerList {
         return itemKeys;
     }
 
+    public void deleteList(String titleKey) {
+        int index;
+        try {
+            index = databaseReader.getIndexFromJsonCollection(titleKey);
+            databaseWriter.deleteList(index);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //todo overrite titlelist for duplicate?
 }
