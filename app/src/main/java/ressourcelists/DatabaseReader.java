@@ -84,11 +84,16 @@ public class DatabaseReader {
     }
 
     public boolean doesFileExist() {
-        File file = new File(jsonFile);
+        File file = getContext().getFilesDir();
+
         if (file.exists()) {
             return true;
         }
         return false;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public JSONObject getItemsByTitleKey(String titleKey) throws Exception {
