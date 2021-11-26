@@ -114,6 +114,7 @@ public class ManagerList {
     public void deleteList(String titleKey) {
         int index;
         try {
+            setJsonCollectionForWriting();
             index = databaseReader.getIndexFromJsonCollection(titleKey);
             databaseWriter.deleteList(index);
         } catch (Exception e) {
