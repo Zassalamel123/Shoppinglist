@@ -110,7 +110,7 @@ public class ManagerListActivity extends AppCompatActivity {
     private void addImageButtonToEditSpecificList() {
         ImageButton imageButton = generateEditListImageView();
         applyEditImageButtonToView(imageButton);
-        saveEditListImageButtonsToList(imageButton);
+        saveEditListImageButtonsToCollection(imageButton);
     }
 
     private ImageButton generateEditListImageView() {
@@ -141,14 +141,14 @@ public class ManagerListActivity extends AppCompatActivity {
         constraintSet.applyTo(constraintLayout);
     }
 
-    private void saveEditListImageButtonsToList(ImageButton imageButton) {
+    private void saveEditListImageButtonsToCollection(ImageButton imageButton) {
         editListImageButtons.add(imageButton);
     }
 
     private void addTextViewTitle(String key) {
         TextView textView = generateTextView(key);
         applyTextViewToView(textView);
-        saveTextViewToList(textView);
+        saveTextViewToCollection(textView);
         applyListenerEditListButton(textView);
     }
 
@@ -184,7 +184,7 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
 
-    private void saveTextViewToList(TextView textView) {
+    private void saveTextViewToCollection(TextView textView) {
         textViews.add(textView);
     }
 
@@ -192,8 +192,8 @@ public class ManagerListActivity extends AppCompatActivity {
         ImageButton createListBtn = editListImageButtons.get(index - 1);
         createListBtn.setOnClickListener(v -> {
             Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
-            String message = textView.getText().toString();
-            intent.putExtra(TITLE_NAME, message);
+            String title = textView.getText().toString();
+            intent.putExtra(TITLE_NAME, title);
             startActivity(intent);
         });
     }

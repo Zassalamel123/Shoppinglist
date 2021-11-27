@@ -166,10 +166,14 @@ public class ListCreationActivity extends AppCompatActivity {
                 toastDuplicateField();
             } else {
                 String title = editText.getText().toString();
-                managerList.saveItemList(title, saveItemsToList());
-                Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
-                ListCreationActivity.super.finish();
-                startActivity(intent);
+                if (managerList.doesListNameExist(title)) {
+                    toastDuplicateTitle();
+                } else {
+                    managerList.saveItemList(title, saveItemsToList());
+                    Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+                    ListCreationActivity.super.finish();
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -212,5 +216,10 @@ public class ListCreationActivity extends AppCompatActivity {
     private void toastDuplicateField() {
         Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
         toastDuplicateField.show();
+    }
+
+    private void toastDuplicateTitle() {
+        Toast toastDuplicateTitle = Toast.makeText(this, "Der Titel ist bereits vorhanden, bitte einen neuen Titel schreiben", Toast.LENGTH_SHORT);
+        toastDuplicateTitle.show();
     }
 }

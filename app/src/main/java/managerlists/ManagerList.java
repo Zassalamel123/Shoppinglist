@@ -75,8 +75,7 @@ public class ManagerList {
         int index;
         JSONObject itemContents = null;
         try {
-//            setCollectionIfFileExists();
-            setJsonCollectionForWriting();
+            setCollectionIfFileExists();
             index = databaseReader.getIndexFromJsonCollection(titleKey);
             itemContents = databaseReader.getItemsByTitleKey(titleKey);
             itemContents.put(itemKey, itemValue);
@@ -92,13 +91,13 @@ public class ManagerList {
         }
     }
 
+    private boolean doesFileExist() {
+        return databaseReader.doesFileExist();
+    }
+
     private void setJsonCollectionForWriting() throws Exception {
         JSONArray jsonArray = databaseReader.getAllContents();
         databaseWriter.setJsonCollection(jsonArray);
-    }
-
-    private boolean doesFileExist() {
-        return databaseReader.doesFileExist();
     }
 
     public List<String> getItemKeys(String titleKey) {
@@ -121,5 +120,13 @@ public class ManagerList {
             e.printStackTrace();
         }
     }
-    //todo overrite titlelist for duplicate?
+
+    public boolean doesListNameExist(String title) {
+        try {
+            return databaseReader.doesListNameExist(title);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
 }
