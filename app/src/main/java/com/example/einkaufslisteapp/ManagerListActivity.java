@@ -2,71 +2,199 @@ package com.example.einkaufslisteapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerListActivity extends AppCompatActivity {
 
-    private ImageButton createListBtn;
-    private ImageButton editListBtn;
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     public static final String TITLE_NAME = "com.example.einkaufslisteapp.MESSAGE";
+    private List<ImageButton> editListImageButtons = new ArrayList<>();
+    private List<TextView> textViews = new ArrayList<>();
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_list);
-        loadList();
-        createList();
-        editList();
+        loadLists();
+        addNewList();
+        deleteNewestList();
     }
 
-    private void createList() {
-        createListBtn = new ImageButton(this);
-        createListBtn = findViewById(R.id.createListButton);
-        createListBtn.setOnClickListener(v ->{
+    private void addNewList() {
+        Button addNewListBtn = findViewById(R.id.createNewListButton);
+        addNewListBtn.setOnClickListener(v -> {
             Intent intent = new Intent(ManagerListActivity.this, ListCreationActivity.class);
-            TextView textView = findViewById(R.id.shoppingList1);
-            String message = textView.getText().toString();
-            intent.putExtra(TITLE_NAME, message);
             startActivity(intent);
         });
     }
 
-    private void editList() {
-        editListBtn = new ImageButton(this);
-        editListBtn = findViewById(R.id.editListButton);
-        editListBtn.setOnClickListener(v ->{
-            Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
-            TextView textView = findViewById(R.id.shoppingList1);
-            String message = textView.getText().toString();
-            intent.putExtra(TITLE_NAME, message);
-            startActivity(intent);
+    private void deleteNewestList() {
+        Button deleteListBtn = findViewById(R.id.deleteListButton);
+        deleteListBtn.setOnClickListener(v -> {
+            if (doesListExist()) {
+                int lastEntry = textViews.size() - 1;
+                TextView lastItem = textViews.get(lastEntry);
+                deleteTextView(lastItem);
+                removeLastTextViewFromList(lastItem);
+
+                int lastEntryButton = editListImageButtons.size() - 1;
+                ImageButton lastImageButton = editListImageButtons.get(lastEntryButton);
+                deleteEditButton(lastImageButton);
+                removeLastEditButtonFromList(lastImageButton);
+
+                managerList.deleteList(lastItem.getText().toString());
+            } else {
+                toastListCanNotBeRemoved();
+            }
         });
     }
 
-    private void loadList() {
-        String title = "";
-        String key = "";
+    private boolean doesListExist() {
+        if (textViews.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    private void toastListCanNotBeRemoved() {
+        Toast toastNoList = Toast.makeText(this, "Es sind keine Listen vorhanden, die gelöscht werden können", Toast.LENGTH_SHORT);
+        toastNoList.show();
+    }
+
+    private void deleteTextView(TextView lastItem) {
+        ConstraintLayout constraintLayout = findViewById(R.id.managerListLayout);
+        constraintLayout.removeView(lastItem);
+    }
+
+    private void removeLastTextViewFromList(TextView textView) {
+        textViews.remove(textView);
+    }
+
+    private void deleteEditButton(ImageButton imageButton) {
+        ConstraintLayout constraintLayout = findViewById(R.id.managerListLayout);
+        constraintLayout.removeView(imageButton);
+    }
+
+    private void removeLastEditButtonFromList(ImageButton imageButton) {
+        editListImageButtons.remove(imageButton);
+    }
+
+    private void loadLists() {
         List<String> keys = managerList.getTitleKeys();
+        if (keys == null) {
+            return;
+        }
 
-        if (areKeysNotNull(keys)) {
-            key = keys.get(0);
-        } else
-            key = "Titel";
+        for (String key : keys) {
+            createNewListMenus(key);
+        }
+    }
 
-        TextView textView = findViewById(R.id.shoppingList1);
+    private void createNewListMenus(String key) {
+        index++;
+        addImageButtonToEditSpecificList();
+        addTextViewTitle(key);
+    }
+
+    private void addImageButtonToEditSpecificList() {
+        ImageButton imageButton = generateEditListImageView();
+        applyEditImageButtonToView(imageButton);
+        saveEditListImageButtonsToList(imageButton);
+    }
+
+    private ImageButton generateEditListImageView() {
+        ImageButton imageButton = new ImageButton(this);
+        imageButton.setId(View.generateViewId());
+        imageButton.setMinimumWidth(60);
+        imageButton.setMinimumHeight(44);
+        imageButton.setImageResource(R.drawable.ic_baseline_edit_24);
+        return imageButton;
+    }
+
+    private void applyEditImageButtonToView(ImageButton imageButton) {
+        ConstraintLayout constraintLayout = findViewById(R.id.managerListLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+
+        constraintLayout.addView(imageButton);
+        constraintSet.clone(constraintLayout);
+
+        if (editListImageButtons.isEmpty()) {
+            constraintSet.connect(imageButton.getId(), ConstraintSet.TOP, R.id.managerListLayout, ConstraintSet.TOP, 16);
+            constraintSet.connect(imageButton.getId(), ConstraintSet.RIGHT, R.id.managerListLayout, ConstraintSet.RIGHT, 8);
+        } else {
+            ImageButton lastItem = editListImageButtons.get(editListImageButtons.size() - 1);
+            constraintSet.connect(imageButton.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 16);
+            constraintSet.connect(imageButton.getId(), ConstraintSet.RIGHT, R.id.managerListLayout, ConstraintSet.RIGHT, 8);
+        }
+
+        constraintSet.applyTo(constraintLayout);
+    }
+
+    private void saveEditListImageButtonsToList(ImageButton imageButton) {
+        editListImageButtons.add(imageButton);
+    }
+
+    private void addTextViewTitle(String key) {
+        TextView textView = generateTextView(key);
+        applyTextViewToView(textView);
+        saveTextViewToList(textView);
+        applyListenerEditListButton(textView);
+    }
+
+    private TextView generateTextView(String key) {
+        TextView textView = new TextView(this);
+        textView.setId(View.generateViewId());
+        textView.setTextSize(20f);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textView.setText(key);
+        return textView;
     }
 
-    private boolean areKeysNotNull(List<String> keys) {
-        return keys != null;
+    private void applyTextViewToView(TextView textView) {
+        ConstraintLayout constraintLayout = findViewById(R.id.managerListLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+
+        constraintLayout.addView(textView);
+        constraintSet.clone(constraintLayout);
+
+        if (textViews.isEmpty()) {
+            constraintSet.connect(textView.getId(), ConstraintSet.TOP, R.id.managerListLayout, ConstraintSet.TOP, 32);
+            constraintSet.connect(textView.getId(), ConstraintSet.RIGHT, editListImageButtons.get(index - 1).getId(), ConstraintSet.LEFT, 8);
+            constraintSet.connect(textView.getId(), ConstraintSet.LEFT, R.id.managerListLayout, ConstraintSet.LEFT, 16);
+
+        } else {
+            TextView lastItem = textViews.get(textViews.size() - 1);
+            constraintSet.connect(textView.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 55);
+            constraintSet.connect(textView.getId(), ConstraintSet.RIGHT, editListImageButtons.get(index - 1).getId(), ConstraintSet.LEFT, 8);
+            constraintSet.connect(textView.getId(), ConstraintSet.LEFT, R.id.managerListLayout, ConstraintSet.LEFT, 16);
+        }
+
+        constraintSet.applyTo(constraintLayout);
     }
 
+
+    private void saveTextViewToList(TextView textView) {
+        textViews.add(textView);
+    }
+
+    private void applyListenerEditListButton(TextView textView) {
+        ImageButton createListBtn = editListImageButtons.get(index - 1);
+        createListBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
+            String message = textView.getText().toString();
+            intent.putExtra(TITLE_NAME, message);
+            startActivity(intent);
+        });
+    }
 }

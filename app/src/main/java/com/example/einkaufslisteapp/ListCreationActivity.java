@@ -28,7 +28,6 @@ public class ListCreationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_creation);
         setToolBar();
         goToPreviousActivity();
-        getTitleListFromPreviousActivity();
         addItem();
         deleteLastItem();
         saveShoppingList();
@@ -49,12 +48,12 @@ public class ListCreationActivity extends AppCompatActivity {
         });
     }
 
-    private void getTitleListFromPreviousActivity() {
-        Intent intent = getIntent();
-        String title = intent.getStringExtra(ManagerListActivity.TITLE_NAME);
-        EditText editText = (EditText) findViewById(R.id.listTitle);
-        editText.setText(title);
-    }
+//    private void getTitleListFromPreviousActivity() {
+//        Intent intent = getIntent();
+//        String title = intent.getStringExtra(ManagerListActivity.TITLE_NAME);
+//        EditText editText = (EditText) findViewById(R.id.listTitle);
+//        editText.setText(title);
+//    }
 
 //    private void loadItemsFromPreviousList() {
 //        EditText editText = (EditText) findViewById(R.id.listTitle);
@@ -169,7 +168,6 @@ public class ListCreationActivity extends AppCompatActivity {
                 String title = editText.getText().toString();
                 managerList.saveItemList(title, saveItemsToList());
                 Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
-                intent.putExtra(CREATION_FLAG, true);
                 ListCreationActivity.super.finish();
                 startActivity(intent);
             }
