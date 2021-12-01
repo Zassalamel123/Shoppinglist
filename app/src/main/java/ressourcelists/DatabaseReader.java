@@ -84,7 +84,7 @@ public class DatabaseReader {
     }
 
     public boolean doesFileExist() {
-        File file = getContext().getFilesDir();
+        File file = getContext().getFileStreamPath(jsonFile);
 
         if (file.exists()) {
             return true;
