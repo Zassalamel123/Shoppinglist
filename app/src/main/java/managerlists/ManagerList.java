@@ -44,7 +44,7 @@ public class ManagerList {
             items = databaseReader.getItemsByTitleKey(key);
             if (items.has(item)) {
                 itemValue = items.get(item);
-            }else
+            } else
                 throw new Exception("Item not found");
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,14 +13,12 @@ import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class ListCreationActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     private List<EditText> editTextItems = new ArrayList<>();
-    public static final String CREATION_FLAG = "com.example.einkaufslisteapp.FLAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,26 +45,6 @@ public class ListCreationActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-//    private void getTitleListFromPreviousActivity() {
-//        Intent intent = getIntent();
-//        String title = intent.getStringExtra(ManagerListActivity.TITLE_NAME);
-//        EditText editText = (EditText) findViewById(R.id.listTitle);
-//        editText.setText(title);
-//    }
-
-//    private void loadItemsFromPreviousList() {
-//        EditText editText = (EditText) findViewById(R.id.listTitle);
-//        String title = editText.getText().toString();
-//        List<String> itemKeys = managerList.getItemKeys(title);
-//        if (itemKeys != null) {
-//            int index = 0;
-//            for (int id : itemCreationIds) {
-//                EditText editTextItem = (EditText) findViewById(id);
-//                editTextItem.setText(itemKeys.get(index++));
-//            }
-//        }
-//    }
 
     private void addItem() {
         ImageView addItem = findViewById(R.id.toolBarAdd);
@@ -160,66 +138,53 @@ public class ListCreationActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.listTitle);
 
         saveListImage.setOnClickListener(v -> {
-            if (areFieldsEmpty() | isTitleEmpty()) {
-                toastEmptyField();
-            } else if (areFieldNamesDuplicated()) {
-                toastDuplicateField();
-            } else {
-                String title = editText.getText().toString();
-                if (managerList.doesListNameExist(title)) {
-                    toastDuplicateTitle();
-                } else {
-                    managerList.saveItemList(title, saveItemsToList());
-                    Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
-                    ListCreationActivity.super.finish();
-                    startActivity(intent);
-                }
+            String title = editText.getText().toString();
+
+            ItemFieldError itemFieldError = checkItemFieldErrors();
+            TitleFieldError titleFieldError = checkTitleErrors(title);
+            if (itemFieldError != null) {
+                itemFieldError.toastMessage();
+            }
+            else if (titleFieldError != null) {
+                titleFieldError.toastMessage();
+            }
+            else{
+                managerList.saveItemList(title, saveItemsToList());
+
+                returnToManagerListActivity();
             }
         });
     }
 
-    private boolean areFieldsEmpty() {
-        for (EditText editTextItem : editTextItems) {
-            String field = editTextItem.getText().toString();
-            if (field.equals("")) {
-                return true;
-            }
+    private ItemFieldError checkItemFieldErrors() {
+        EmptyItemError emptyItemError = new EmptyItemError(editTextItems, this);
+        DuplicateItemError duplicateItemError = new DuplicateItemError(editTextItems, this);
+
+        if (!emptyItemError.isItemFieldValid()) {
+            return emptyItemError;
         }
-        return false;
-    }
-
-    private boolean isTitleEmpty() {
-        EditText editText = (EditText) findViewById(R.id.listTitle);
-        String field = editText.getText().toString();
-        if (field.equals("")) {
-            return true;
+        if (!duplicateItemError.isItemFieldValid()) {
+            return duplicateItemError;
         }
-        return false;
+        return null;
     }
 
-    private void toastEmptyField() {
-        Toast toastEmptyField = Toast.makeText(this, "Es sind leere Felder vorhanden, bitte alle ausfüllen", Toast.LENGTH_SHORT);
-        toastEmptyField.show();
-    }
+    private TitleFieldError checkTitleErrors(String title) {
+        EmptyTitleError emptyTitleError = new EmptyTitleError(this);
+        DuplicateTitleError duplicateTitleError = new DuplicateTitleError(this, managerList);
 
-    private boolean areFieldNamesDuplicated() {
-        HashSet<String> hashSet = new HashSet<>();
-        for (EditText editTextItem : editTextItems) {
-            String field = editTextItem.getText().toString();
-            if (hashSet.add(field) == false) {
-                return true;
-            }
+        if (!emptyTitleError.isTitleValid(title)) {
+            return emptyTitleError;
         }
-        return false;
+        if (!duplicateTitleError.isTitleValid(title)) {
+            return duplicateTitleError;
+        }
+        return null;
     }
 
-    private void toastDuplicateField() {
-        Toast toastDuplicateField = Toast.makeText(this, "Die Feldernamen müssen einmalig sein, bitte ändern", Toast.LENGTH_SHORT);
-        toastDuplicateField.show();
-    }
-
-    private void toastDuplicateTitle() {
-        Toast toastDuplicateTitle = Toast.makeText(this, "Der Titel ist bereits vorhanden, bitte einen neuen Titel schreiben", Toast.LENGTH_SHORT);
-        toastDuplicateTitle.show();
+    private void returnToManagerListActivity() {
+        Intent intent = new Intent(ListCreationActivity.this, ManagerListActivity.class);
+        ListCreationActivity.super.finish();
+        startActivity(intent);
     }
 }
