@@ -18,6 +18,8 @@ public class ManagerListActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     public static final String TITLE_NAME = "com.example.einkaufslisteapp.MESSAGE";
+    private TextViewFactory textViewFactory = new TextViewFactory();
+    private ImageButtonFactory imageButtonFactory = new ImageButtonFactory();
     private List<ImageButton> editListImageButtons = new ArrayList<>();
     private List<TextView> textViews = new ArrayList<>();
     private int index = 0;
@@ -114,12 +116,7 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
     private ImageButton generateEditListImageView() {
-        ImageButton imageButton = new ImageButton(this);
-        imageButton.setId(View.generateViewId());
-        imageButton.setMinimumWidth(60);
-        imageButton.setMinimumHeight(44);
-        imageButton.setImageResource(R.drawable.ic_baseline_edit_24);
-        return imageButton;
+        return (ImageButton) imageButtonFactory.create(this);
     }
 
     private void applyEditImageButtonToView(ImageButton imageButton) {
@@ -153,10 +150,7 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
     private TextView generateTextView(String key) {
-        TextView textView = new TextView(this);
-        textView.setId(View.generateViewId());
-        textView.setTextSize(20f);
-        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TextView textView = (TextView) textViewFactory.create(this);
         textView.setText(key);
         return textView;
     }
@@ -191,10 +185,14 @@ public class ManagerListActivity extends AppCompatActivity {
     private void applyListenerEditListButton(TextView textView) {
         ImageButton createListBtn = editListImageButtons.get(index - 1);
         createListBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
-            String title = textView.getText().toString();
-            intent.putExtra(TITLE_NAME, title);
-            startActivity(intent);
+            startListEditActivity(textView);
         });
+    }
+
+    private void startListEditActivity(TextView textView) {
+        Intent intent = new Intent(ManagerListActivity.this, ListEditActivity.class);
+        String title = textView.getText().toString();
+        intent.putExtra(TITLE_NAME, title);
+        startActivity(intent);
     }
 }

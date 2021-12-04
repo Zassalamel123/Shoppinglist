@@ -19,6 +19,7 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     private List<EditText> editTextItems = new ArrayList<>();
+    private EditTextFactory editTextFactory = new EditTextFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +57,7 @@ public class ListCreationActivity extends AppCompatActivity {
     }
 
     private EditText generateItemField() {
-        EditText editText = new EditText(this);
-        editText.setHint("item");
-        editText.setId(View.generateViewId());
-        editText.setEms(10);
-        editText.requestFocus();
-        return editText;
+        return (EditText) editTextFactory.create(this);
     }
 
     private void applyItemToView(EditText item) {
