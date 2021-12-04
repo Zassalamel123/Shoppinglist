@@ -33,7 +33,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/toolbar"
-                    android:tint="@color/yellow"
+                    app:tint="@color/yellow"
                     android:layout_marginStart="16dp" android:clickable="true"/>
             <ImageView
                     android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                     android:id="@+id/toolBarSave"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:tint="@color/black"
+                    app:tint="@color/black"
                     android:clickable="true" app:layout_constraintEnd_toStartOf="@+id/toolBarDelete"
                     android:layout_marginEnd="8dp"/>
             <ImageView
@@ -50,7 +50,7 @@
                     android:layout_height="35dp"
                     app:srcCompat="@drawable/ic_baseline_delete_24"
                     android:id="@+id/toolBarDelete"
-                    android:tint="@color/red"
+                    app:tint="@color/red"
                     app:layout_constraintEnd_toStartOf="@+id/toolBarAdd"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +63,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/toolbar"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:tint="@color/yellow"
+                    app:tint="@color/yellow"
                     android:layout_marginEnd="8dp" android:clickable="true"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
