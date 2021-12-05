@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.Iterator;
 import java.util.List;
 
 public class DatabaseWriter {

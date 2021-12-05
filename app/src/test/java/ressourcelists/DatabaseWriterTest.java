@@ -41,9 +41,6 @@ public class DatabaseWriterTest {
         items.add(item1);
         items.add(item2);
         databaseWriter.setFilePath(FILE_TEST);
-
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_APPEND)).thenReturn(new FileOutputStream(FILE_TEST));
     }
 
     @AfterEach
@@ -52,6 +49,8 @@ public class DatabaseWriterTest {
 
     @Test
     public void saveItemList() throws Exception {
+        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
+
         databaseWriter.saveItemList(listName, items);
         JSONArray actual = databaseWriter.getJsonCollection();
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
@@ -72,6 +71,7 @@ public class DatabaseWriterTest {
     public void updateItemValue() throws Exception {
         databaseWriter.setFilePath(FILE_TEST2);
         when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST3));
+
         JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
         databaseWriter.setJsonCollection(mockedJsonArray);
         JSONObject mockedItemsContent = new JSONObject("{"+
