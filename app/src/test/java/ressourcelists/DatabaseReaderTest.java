@@ -19,14 +19,14 @@ import static org.mockito.Mockito.when;
 public class DatabaseReaderTest {
 
     private DatabaseReader databaseReader;
-    private final String item1 = "apple";
-    private final String item2 = "banana";
-    private final String item3 = "karotten";
-    private final String item4 = "erbsen";
-    private final String listName1 = "Aldi";
-    private final String listName2 = "Real";
-    private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testReaderItemList.json";
-    private final Context mockContext = mock(Context.class);
+    private String item1 = "apple";
+    private String item2 = "banana";
+    private String item3 = "karotten";
+    private String item4 = "erbsen";
+    private String listName1 = "Aldi";
+    private String listName2 = "Real";
+    private String FILE_TEST = "src\\test\\java\\ressourcelists\\testReaderItemList.json";
+    private Context mockContext = mock(Context.class);
 
     @BeforeEach
     public void setUp() throws FileNotFoundException {
