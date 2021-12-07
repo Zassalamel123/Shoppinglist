@@ -8,7 +8,7 @@ With this Project I developed an Application where you can write down the items 
 buy.
 
 First you create a List where you write down every item you want to buy for today and a Title of your list.
-A Json File with items and a Title of your Shopping-List will be written in your smartphone.
+A Json File with items and a Title of your Shopping-List will be created in your smartphone.
 
 After you create the List you can checkmark these items if you press on the name. 
 
@@ -20,4 +20,5 @@ uncheck them if you press on this item again.
 
 After working on this project I learned more about Android development, 
 writing tests with the mockito framework and also establishing a cicd pipeline to automate tests.
-Also following Clean Code, SOLID, TDD principles i wanted to write something that is easy to read and understand.
+Also following Clean Code, SOLID, TDD (except for the Activities, because testing these was too new and different for me to apply TDD)
+principles i wanted to write something that is easy to read and understand.

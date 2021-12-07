@@ -25,12 +25,11 @@ public class DatabaseWriterTest {
     private String item2 = "banana";
     private List<String> items;
     private String listName = "Aldi";
-    private final String FILE_TEST = "src\\test\\java\\ressourcelists\\testWriterItemList.json";
-    private final String FILE_TEST2 = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
-    private final String FILE_TEST3 = "src\\test\\java\\ressourcelists\\testWriterItemList3.json";
-    private final String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
-    private final String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
-
+    private String FILE_TEST = "src\\test\\java\\ressourcelists\\testWriterItemList.json";
+    private String FILE_TEST2 = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
+    private String FILE_TEST3 = "src\\test\\java\\ressourcelists\\testWriterItemList3.json";
+    private String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
+    private String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
 
     private final Context mockContext = mock(Context.class);
 
@@ -74,10 +73,10 @@ public class DatabaseWriterTest {
 
         JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
         databaseWriter.setJsonCollection(mockedJsonArray);
-        JSONObject mockedItemsContent = new JSONObject("{"+
+        JSONObject mockedItemsContent = new JSONObject("{" +
                 item2 + ": false," +
                 item1 + ": true" +
-"}");
+                "}");
 
         databaseWriter.updateItemValue(listName, mockedItemsContent, 0);
         JSONArray actual = databaseWriter.getJsonCollection();
