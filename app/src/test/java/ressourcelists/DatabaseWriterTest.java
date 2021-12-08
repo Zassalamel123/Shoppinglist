@@ -31,7 +31,7 @@ public class DatabaseWriterTest {
     private String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
     private String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
 
-    private final Context mockContext = mock(Context.class);
+    private Context mockContext = mock(Context.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -39,7 +39,6 @@ public class DatabaseWriterTest {
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
-        databaseWriter.setFilePath(FILE_TEST);
     }
 
     @AfterEach
@@ -48,6 +47,7 @@ public class DatabaseWriterTest {
 
     @Test
     public void saveItemList() throws Exception {
+        databaseWriter.setFilePath(FILE_TEST);
         when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
 
         databaseWriter.saveItemList(listName, items);
