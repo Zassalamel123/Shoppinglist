@@ -31,10 +31,11 @@ public class DatabaseWriterTest {
     private String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
     private String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
 
-    private Context mockContext = mock(Context.class);
+    private Context mockContext;
 
     @BeforeEach
     public void setUp() throws Exception {
+        mockContext = mock(Context.class);
         databaseWriter = new DatabaseWriter(mockContext);
         items = new ArrayList<>();
         items.add(item1);
