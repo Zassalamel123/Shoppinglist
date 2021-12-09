@@ -25,11 +25,11 @@ public class DatabaseWriterTest {
     private String item2 = "banana";
     private List<String> items;
     private String listName = "Aldi";
-    private String FILE_TEST = "src\\test\\java\\ressourcelists\\testWriterItemList.json";
-    private String FILE_TEST2 = "src\\test\\java\\ressourcelists\\testWriterItemList2.json";
-    private String FILE_TEST3 = "src\\test\\java\\ressourcelists\\testWriterItemList3.json";
-    private String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
-    private String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
+    private String FILE_TEST = "src/test/java/ressourcelists/testWriterItemList.json";
+    private String FILE_TEST2 = "src/test/java/ressourcelists/testWriterItemList2.json";
+    private String FILE_TEST3 = "src/test/java/ressourcelists/testWriterItemList3.json";
+    private String FILE_TEST_DELETE_BEFORE = "src/test/java/ressourcelists/testWriterItemListDeleteAfter.json";
+    private String FILE_TEST_DELETE_AFTER = "src/test/java/ressourcelists/testWriterItemListDeleteBefore.json";
 
     private Context mockContext = mock(Context.class);
 
@@ -50,8 +50,7 @@ public class DatabaseWriterTest {
     @Test
     public void saveItemList() throws Exception {
         databaseWriter.setFilePath(FILE_TEST);
-        fileOutputStream = new FileOutputStream(FILE_TEST);
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
+        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST));
 
         databaseWriter.saveItemList(listName, items);
         JSONArray actual = databaseWriter.getJsonCollection();
