@@ -60,6 +60,19 @@ public class DatabaseWriterTest {
     }
 
     @Test
+    public void saveItemList2() throws Exception {
+        databaseWriter.setFilePath(FILE_TEST);
+        fileOutputStream = new FileOutputStream(FILE_TEST);
+        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
+
+        databaseWriter.saveItemList(listName, items);
+        JSONArray actual = databaseWriter.getJsonCollection();
+        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
+
+
+    @Test
     public void setFilePath() {
         String testJsonFile = "src\\test\\java\\ressourcelists\\testPathWriterItemList.json";
 
