@@ -31,13 +31,13 @@ public class DatabaseWriterTest {
     private String FILE_TEST_DELETE_BEFORE = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteBefore.json";
     private String FILE_TEST_DELETE_AFTER = "src\\test\\java\\ressourcelists\\testWriterItemListDeleteAfter.json";
 
-    private Context mockContext = mock(Context.class);
+//    private Context mockContext = mock(Context.class);
 
     private FileOutputStream fileOutputStream;
 
     @BeforeEach
     public void setUp() throws Exception {
-        databaseWriter = new DatabaseWriter(mockContext);
+//        databaseWriter = new DatabaseWriter(mockContext);
         items = new ArrayList<>();
         items.add(item1);
         items.add(item2);
@@ -49,6 +49,8 @@ public class DatabaseWriterTest {
 
     @Test
     public void saveItemList() throws Exception {
+        Context mockContext = mock(Context.class);
+        databaseWriter = new DatabaseWriter(mockContext);
         databaseWriter.setFilePath(FILE_TEST);
         fileOutputStream = new FileOutputStream(FILE_TEST);
         when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
@@ -58,22 +60,11 @@ public class DatabaseWriterTest {
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
-
-    @Test
-    public void saveItemList2() throws Exception {
-        databaseWriter.setFilePath(FILE_TEST);
-        fileOutputStream = new FileOutputStream(FILE_TEST);
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
-
-        databaseWriter.saveItemList(listName, items);
-        JSONArray actual = databaseWriter.getJsonCollection();
-        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-        JSONAssert.assertEquals(expected, actual, true);
-    }
-
 
     @Test
     public void setFilePath() {
+        Context mockContext = mock(Context.class);
+        databaseWriter = new DatabaseWriter(mockContext);
         String testJsonFile = "src\\test\\java\\ressourcelists\\testPathWriterItemList.json";
 
         databaseWriter.setFilePath(testJsonFile);
@@ -84,6 +75,8 @@ public class DatabaseWriterTest {
 
     @Test
     public void updateItemValue() throws Exception {
+        Context mockContext = mock(Context.class);
+        databaseWriter = new DatabaseWriter(mockContext);
         databaseWriter.setFilePath(FILE_TEST2);
         fileOutputStream = new FileOutputStream(FILE_TEST3);
         when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
@@ -103,6 +96,8 @@ public class DatabaseWriterTest {
 
     @Test
     public void deleteList() throws Exception {
+        Context mockContext = mock(Context.class);
+        databaseWriter = new DatabaseWriter(mockContext);
         databaseWriter.setFilePath(FILE_TEST_DELETE_BEFORE);
         when(mockContext.openFileOutput(FILE_TEST_DELETE_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_DELETE_AFTER));
 
