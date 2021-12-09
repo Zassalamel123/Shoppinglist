@@ -72,8 +72,7 @@ public class DatabaseWriterTest {
     @Test
     public void updateItemValue() throws Exception {
         databaseWriter.setFilePath(FILE_TEST2);
-        fileOutputStream = new FileOutputStream(FILE_TEST2);
-        when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
+        when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST2));
 
         JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
         databaseWriter.setJsonCollection(mockedJsonArray);
