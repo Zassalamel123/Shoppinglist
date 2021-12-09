@@ -78,7 +78,7 @@ public class DatabaseWriterTest {
         Context mockContext = mock(Context.class);
         databaseWriter = new DatabaseWriter(mockContext);
         databaseWriter.setFilePath(FILE_TEST2);
-        fileOutputStream = new FileOutputStream(FILE_TEST3);
+        fileOutputStream = new FileOutputStream(FILE_TEST2);
         when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(fileOutputStream);
 
         JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
@@ -96,8 +96,6 @@ public class DatabaseWriterTest {
 
     @Test
     public void deleteList() throws Exception {
-        Context mockContext = mock(Context.class);
-        databaseWriter = new DatabaseWriter(mockContext);
         databaseWriter.setFilePath(FILE_TEST_DELETE_BEFORE);
         when(mockContext.openFileOutput(FILE_TEST_DELETE_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_DELETE_AFTER));
 
