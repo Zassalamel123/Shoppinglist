@@ -25,7 +25,7 @@ public class DatabaseReaderTest {
     private String item4 = "erbsen";
     private String listName1 = "Aldi";
     private String listName2 = "Real";
-    private String FILE_TEST = "src\\test\\java\\ressourcelists\\testReaderItemList.json";
+    private String FILE_TEST = "src/test/java/ressourcelists/testReaderItemList.json";
     private Context mockContext = mock(Context.class);
 
     @BeforeEach
