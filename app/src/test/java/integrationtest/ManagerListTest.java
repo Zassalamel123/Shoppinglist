@@ -11,6 +11,7 @@ import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,18 +30,18 @@ public class ManagerListTest {
     private String listName = "Saturn";
     private String item1 = "tomato";
     private String item2 = "Kiwi";
-    private final Context mockContext = mock(Context.class);
+    private Context mockContext = mock(Context.class);
     private DatabaseReader databaseReader;
     private DatabaseWriter databaseWriter;
-    private final String FILE_TEST = "src\\test\\java\\integrationtest\\testIntegrationItemList.json";
-    private final String FILE_TEST2 = "src\\test\\java\\integrationtest\\testIntegrationItemList2.json";
+    private final String FILE_TEST_SAVE_SINGLE_LIST = "src/test/java/integrationtest/testSaveSingleList.json";
+    private final String FILE_TEST_AFTER = "src/test/java/integrationtest/testIntegrationItemList2.json";
 
     @BeforeEach
     public void setUp() throws FileNotFoundException {
         databaseReader = new DatabaseReader(mockContext);
         databaseWriter = new DatabaseWriter(mockContext);
-        databaseWriter.setFilePath(FILE_TEST);
-        databaseReader.setFilePath(FILE_TEST);
+        databaseWriter.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
+        databaseReader.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         managerList = new ManagerList(databaseReader, databaseWriter);
 
         items = new ArrayList<>();
@@ -49,10 +50,6 @@ public class ManagerListTest {
 
         keys = new ArrayList<>();
         keys.add(listName);
-
-        when(mockContext.openFileOutput(FILE_TEST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST2));
-        when(mockContext.openFileInput(FILE_TEST)).thenReturn(new FileInputStream(FILE_TEST));
-
     }
 
     @AfterEach
@@ -60,21 +57,28 @@ public class ManagerListTest {
     }
 
     @Test
-    public void saveMultipleListsTest() throws JSONException, FileNotFoundException {
+    public void saveItemListTest() throws JSONException, FileNotFoundException {
+        when(mockContext.openFileOutput(FILE_TEST_SAVE_SINGLE_LIST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_SAVE_SINGLE_LIST));
+        when(mockContext.openFileInput(FILE_TEST_SAVE_SINGLE_LIST)).thenReturn(new FileInputStream(FILE_TEST_SAVE_SINGLE_LIST));
+        when(mockContext.getFileStreamPath(FILE_TEST_SAVE_SINGLE_LIST)).thenReturn(new File(FILE_TEST_SAVE_SINGLE_LIST));
+
         managerList.saveItemList(listName, items);
+        JSONArray actual = databaseWriter.getJsonCollection();
+        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    //    @Test
+//    public void saveMultipleListsTest() throws JSONException, FileNotFoundException {
+//        managerList.saveItemList(listName, items);
 //        JSONArray actual = managerList.getAllContents();
 //
-//        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-//        JSONAssert.assertEquals(expected, actual, true);
-    }
-    //    @Test
-//    public void saveToJsonTest() throws JSONException {
-//        managerList.saveToJson(listName, items);
-//        JSONArray actual = databaseWriter.getJsonCollection();
-//        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
+//        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}," +
+//                "{ "+ listName + ":{ "+ item1 + ":false," + item2 + ":false}}]";
 //        JSONAssert.assertEquals(expected, actual, true);
 
 //    }
+
 //    @Test
 //    public void getJsonContentTest() throws JSONException {
 //        JSONArray actual = managerList.getJsonContent();
@@ -90,4 +94,4 @@ public class ManagerListTest {
 //        Assertions.assertEquals(expected,actual);
 //    }
 //
-}
+    }
