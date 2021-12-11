@@ -26,14 +26,12 @@ public class DatabaseWriterTest {
     private List<String> items;
     private String listName = "Aldi";
     private String FILE_TEST = "src/test/java/ressourcelists/testWriterItemList.json";
-    private String FILE_TEST2 = "src/test/java/ressourcelists/testWriterItemList2.json";
-    private String FILE_TEST3 = "src/test/java/ressourcelists/testWriterItemList3.json";
-    private String FILE_TEST_DELETE_BEFORE = "src/test/java/ressourcelists/testWriterItemListDeleteAfter.json";
-    private String FILE_TEST_DELETE_AFTER = "src/test/java/ressourcelists/testWriterItemListDeleteBefore.json";
+    private String FILE_TEST_UPDATE_ITEM_BEFORE = "src/test/java/ressourcelists/testUpdateItemBefore.json";
+    private String FILE_TEST_UPDATE_ITEM_AFTER = "src/test/java/ressourcelists/testUpdateItemAfter.json";
+    private String FILE_TEST_DELETE_BEFORE = "src/test/java/ressourcelists/testWriterItemListDeleteBefore.json";
+    private String FILE_TEST_DELETE_AFTER = "src/test/java/ressourcelists/testWriterItemListDeleteAfter.json";
 
     private Context mockContext = mock(Context.class);
-
-    private FileOutputStream fileOutputStream;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -60,7 +58,7 @@ public class DatabaseWriterTest {
 
     @Test
     public void setFilePath() {
-        String testJsonFile = "src\\test\\java\\ressourcelists\\testPathWriterItemList.json";
+        String testJsonFile = "src/test/java/ressourcelists/testPathWriterItemList.json";
 
         databaseWriter.setFilePath(testJsonFile);
         String expected = testJsonFile;
@@ -70,8 +68,8 @@ public class DatabaseWriterTest {
 
     @Test
     public void updateItemValue() throws Exception {
-        databaseWriter.setFilePath(FILE_TEST2);
-        when(mockContext.openFileOutput(FILE_TEST2, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST3));
+        databaseWriter.setFilePath(FILE_TEST_UPDATE_ITEM_BEFORE);
+        when(mockContext.openFileOutput(FILE_TEST_UPDATE_ITEM_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_UPDATE_ITEM_AFTER));
 
         JSONArray mockedJsonArray = new JSONArray("[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]");
         databaseWriter.setJsonCollection(mockedJsonArray);
