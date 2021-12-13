@@ -4,6 +4,7 @@ import android.content.Context;
 import managerlists.ManagerList;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,9 @@ public class ManagerListTest {
     private final String FILE_TEST_SAVE_SINGLE_LIST = "src/test/java/integrationtest/testSaveSingleList.json";
     private final String FILE_TEST_SAVE_MULTIPLE_LISTS_BEFORE = "src/test/java/integrationtest/testSaveMultipleListsBefore.json";
     private final String FILE_TEST_SAVE_MULTIPLE_LISTS_AFTER = "src/test/java/integrationtest/testSaveMultipleListsAfter.json";
+    private final String FILE_TEST_READ_ONLY = "src/test/java/integrationtest/testReadOnlyItems.json";
+    private final String FILE_TEST_UPDATE_ITEM_VALUE_BEFORE = "src/test/java/integrationtest/testUpdateItemValueBefore.json";
+    private final String FILE_TEST_UPDATE_ITEM_VALUE_AFTER = "src/test/java/integrationtest/testUpdateItemValueAfter.json";
 
     @BeforeEach
     public void setUp() {
@@ -57,7 +61,7 @@ public class ManagerListTest {
     }
 
     @Test
-    public void saveItemListTest() throws JSONException, FileNotFoundException {
+    public void saveItemList() throws JSONException, FileNotFoundException {
         databaseWriter.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         databaseReader.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         when(mockContext.openFileOutput(FILE_TEST_SAVE_SINGLE_LIST, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_SAVE_SINGLE_LIST));
@@ -71,7 +75,7 @@ public class ManagerListTest {
     }
 
     @Test
-    public void saveMultipleListsTest() throws JSONException, FileNotFoundException {
+    public void saveMultipleLists() throws JSONException, FileNotFoundException {
         databaseWriter.setFilePath(FILE_TEST_SAVE_MULTIPLE_LISTS_BEFORE);
         databaseReader.setFilePath(FILE_TEST_SAVE_MULTIPLE_LISTS_BEFORE);
         when(mockContext.openFileOutput(FILE_TEST_SAVE_MULTIPLE_LISTS_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_SAVE_MULTIPLE_LISTS_AFTER));
@@ -86,22 +90,56 @@ public class ManagerListTest {
     }
 
     @Test
-    public void getAllContentsTest() throws JSONException, FileNotFoundException {
+    public void getAllContents() throws JSONException, FileNotFoundException {
         databaseReader.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         when(mockContext.openFileInput(FILE_TEST_SAVE_SINGLE_LIST)).thenReturn(new FileInputStream(FILE_TEST_SAVE_SINGLE_LIST));
+
         JSONArray actual = managerList.getAllContents();
         String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
 
     @Test
-    public void getTitleKeysTest() throws FileNotFoundException {
+    public void getTitleKeys() throws FileNotFoundException {
         databaseReader.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         when(mockContext.openFileInput(FILE_TEST_SAVE_SINGLE_LIST)).thenReturn(new FileInputStream(FILE_TEST_SAVE_SINGLE_LIST));
 
         List<String> keys = managerList.getTitleKeys();
         String actual = keys.get(0);
         String expected = listName;
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getItemsByTitleKey() throws FileNotFoundException, JSONException {
+        databaseReader.setFilePath(FILE_TEST_READ_ONLY);
+        when(mockContext.openFileInput(FILE_TEST_READ_ONLY)).thenReturn(new FileInputStream(FILE_TEST_READ_ONLY));
+
+        JSONObject actual = managerList.getItemsByTitleKey(listName);
+        String expected = "{" + item1 + ":true," + item2 + ":false}";
+        JSONAssert.assertEquals(expected, actual, true);
+    }
+
+    @Test
+    public void getItemValue() throws FileNotFoundException {
+        databaseReader.setFilePath(FILE_TEST_READ_ONLY);
+        when(mockContext.openFileInput(FILE_TEST_READ_ONLY)).thenReturn(new FileInputStream(FILE_TEST_READ_ONLY));
+
+        Object actual = managerList.getItemValue(listName, item1);
+        Assertions.assertTrue((Boolean) actual);
+    }
+
+    @Test
+    public void updateItemValue() throws FileNotFoundException, JSONException {
+        databaseWriter.setFilePath(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE);
+        databaseReader.setFilePath(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE);
+        when(mockContext.openFileOutput(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE, Context.MODE_PRIVATE)).thenReturn(new FileOutputStream(FILE_TEST_UPDATE_ITEM_VALUE_AFTER));
+        when(mockContext.openFileInput(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE)).thenReturn(new FileInputStream(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE));
+        when(mockContext.getFileStreamPath(FILE_TEST_UPDATE_ITEM_VALUE_BEFORE)).thenReturn(new File(FILE_TEST_UPDATE_ITEM_VALUE_AFTER));
+
+        managerList.updateItemValue(listName, item2, true);
+        JSONArray actual = databaseWriter.getJsonCollection();
+        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":true}}]";
+        JSONAssert.assertEquals(expected, actual, true);
     }
 }
