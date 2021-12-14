@@ -1,0 +1,10 @@
+[
+    {"Aldi": {
+        "Plume": false,
+        "Banana": false
+    }},
+    {"Saturn": {
+        "tomato": true,
+        "Kiwi": false
+    }}
+]
