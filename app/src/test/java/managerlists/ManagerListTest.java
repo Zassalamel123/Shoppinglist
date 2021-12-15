@@ -123,8 +123,7 @@ public class ManagerListTest {
         when(mockDatabaseReader.getItemsByTitleKey(listName)).thenReturn(specificContent);
 
         boolean actual = (boolean) managerList.getItemValue(listName, item1);
-        boolean expected = true;
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertTrue(actual);
     }
 
     @AfterEach
