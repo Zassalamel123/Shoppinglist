@@ -1,10 +1,10 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Factories;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-public class TextViewFactory implements ViewFactory{
+public class TextViewFactory implements ViewFactory {
 
     @Override
     public View create(Context context) {

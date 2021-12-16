@@ -1,10 +1,11 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Factories;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageButton;
+import com.example.einkaufslisteapp.R;
 
-public class ImageButtonFactory implements ViewFactory{
+public class ImageButtonFactory implements ViewFactory {
 
     @Override
     public View create(Context context) {

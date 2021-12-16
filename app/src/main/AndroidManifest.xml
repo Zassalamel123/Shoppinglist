@@ -10,17 +10,17 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.Einkaufsliste">
         <activity
-                android:name=".ListEditActivity"
-                android:parentActivityName=".ManagerListActivity">
+                android:name=".Activities.ListEditActivity"
+                android:parentActivityName=".Activities.ManagerListActivity">
         </activity>
         <activity
-                android:name=".ListCreationActivity"
-                android:parentActivityName=".ManagerListActivity">
+                android:name=".Activities.ListCreationActivity"
+                android:parentActivityName=".Activities.ManagerListActivity">
         </activity>
         <activity
-                android:name=".ManagerListActivity"
-                android:parentActivityName=".MainActivity"/>
-        <activity android:name=".MainActivity">
+                android:name=".Activities.ManagerListActivity"
+                android:parentActivityName=".Activities.MainActivity"/>
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

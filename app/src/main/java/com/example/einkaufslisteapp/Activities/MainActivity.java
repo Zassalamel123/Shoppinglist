@@ -1,9 +1,10 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Activities;
 
 import android.content.Intent;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.einkaufslisteapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,10 +1,10 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Factories;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 
-public class EditTextFactory implements ViewFactory{
+public class EditTextFactory implements ViewFactory {
 
     @Override
     public View create(Context context) {

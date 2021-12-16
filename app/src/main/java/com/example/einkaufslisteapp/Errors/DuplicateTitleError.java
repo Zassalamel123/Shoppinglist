@@ -1,4 +1,4 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Errors;
 
 import android.content.Context;
 import android.widget.Toast;

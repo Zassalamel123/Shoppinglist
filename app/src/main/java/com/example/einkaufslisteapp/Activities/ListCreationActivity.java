@@ -1,8 +1,10 @@
-package com.example.einkaufslisteapp;
+package com.example.einkaufslisteapp.Activities;
 
+import com.example.einkaufslisteapp.*;
+import com.example.einkaufslisteapp.Errors.*;
+import com.example.einkaufslisteapp.Factories.EditTextFactory;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

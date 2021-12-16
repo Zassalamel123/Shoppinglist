@@ -22,3 +22,5 @@ After working on this project I learned more about Android development,
 writing tests with the mockito framework and also establishing a cicd pipeline to automate tests.
 Also following Clean Code, SOLID, TDD (except for the Activities, because testing these was too new and different for me to apply TDD)
 principles i wanted to write something that is easy to read and understand.
+
+Also for learning purposes the App will be released in Google Play Store soon.
