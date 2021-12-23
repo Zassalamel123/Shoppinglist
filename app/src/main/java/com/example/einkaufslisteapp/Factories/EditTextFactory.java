@@ -12,6 +12,7 @@ public class EditTextFactory implements ViewFactory {
         editText.setHint("item");
         editText.setId(View.generateViewId());
         editText.setEms(10);
+        editText.setTag("item");
         editText.requestFocus();
         return editText;
     }
