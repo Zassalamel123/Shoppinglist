@@ -3,6 +3,7 @@ package com.example.einkaufslisteapp.Activities;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,9 +26,19 @@ public class ListEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_edit);
+        goToPreviousActivity();
         getTitleListFromPreviousActivity();
         loadItems();
         checkMarkItem();
+    }
+
+    private void goToPreviousActivity() {
+        ImageView backArrow = findViewById(R.id.toolBarArrowBackEditList);
+        backArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(ListEditActivity.this, ManagerListActivity.class);
+            ListEditActivity.super.finish();
+            startActivity(intent);
+        });
     }
 
     private void getTitleListFromPreviousActivity() {
@@ -104,14 +115,15 @@ public class ListEditActivity extends AppCompatActivity {
     }
 
     private void checkMarkItemOnClick(String title, TextView textViewItem) {
-        Object itemValue = managerList.getItemValue(title, textViewItem.getText().toString());
+        String currentItem = textViewItem.getText().toString();
+        Object itemValue = managerList.getItemValue(title, currentItem);
         boolean isItemChecked = (boolean) itemValue;
         if (isItemChecked) {
             textViewItem.setPaintFlags(textViewItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            managerList.updateItemValue(title,textViewItem.getText().toString(),false);
+            managerList.updateItemValue(title,currentItem,false);
         } else {
             textViewItem.setPaintFlags(textViewItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            managerList.updateItemValue(title,textViewItem.getText().toString(),true);
+            managerList.updateItemValue(title,currentItem,true);
         }
     }
 }

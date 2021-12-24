@@ -10,13 +10,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".Activities.ListEditActivity" android:id="@+id/listEditConstraintLayout">
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" android:id="@+id/appBarEditList">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/constraintLayoutToolbarEditList">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/colorPrimary"
+                        android:theme="?attr/actionBarTheme"
+                        android:minHeight="?attr/actionBarSize" android:id="@+id/toolbarEditList"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.0"/>
+                <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                        android:id="@+id/toolBarArrowBackEditList"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/toolbarEditList"
+                        app:tint="@color/yellow"
+                        android:layout_marginStart="16dp" android:clickable="true"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
         <TextView
                 android:text="Beispiel Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/editTitleList"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp" android:textAlignment="center"
+                android:textAlignment="center"
                 android:autoText="false" app:autoSizeTextType="none" android:textSize="30sp" android:clickable="false"
-                android:textStyle="bold"/>
+                android:textStyle="bold" app:layout_constraintTop_toBottomOf="@+id/appBarEditList"
+                android:layout_marginTop="16dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
