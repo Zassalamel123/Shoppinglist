@@ -171,7 +171,7 @@ public class ManagerListActivity extends AppCompatActivity {
 
         } else {
             TextView lastItem = textViews.get(textViews.size() - 1);
-            constraintSet.connect(textView.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 55);
+            constraintSet.connect(textView.getId(), ConstraintSet.TOP, lastItem.getId(), ConstraintSet.BOTTOM, 58);
             constraintSet.connect(textView.getId(), ConstraintSet.RIGHT, editListImageButtons.get(index - 1).getId(), ConstraintSet.LEFT, 8);
             constraintSet.connect(textView.getId(), ConstraintSet.LEFT, R.id.managerListLayout, ConstraintSet.LEFT, 16);
         }
