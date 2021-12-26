@@ -179,7 +179,6 @@ public class ManagerListActivity extends AppCompatActivity {
         constraintSet.applyTo(constraintLayout);
     }
 
-
     private void saveTextViewToCollection(TextView textView) {
         textViews.add(textView);
     }
