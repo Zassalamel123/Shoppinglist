@@ -14,9 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         goToManagerListActivity();
-
     }
 
     private void goToManagerListActivity() {
@@ -24,9 +22,5 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.buttonListeVerwalten);
         button.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, ManagerListActivity.class)));
-    }
-
-    private void loadLists() {
-
     }
 }

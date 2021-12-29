@@ -85,11 +85,7 @@ public class DatabaseReader {
 
     public boolean doesFileExist() {
         File file = getContext().getFileStreamPath(jsonFile);
-
-        if (file.exists()) {
-            return true;
-        }
-        return false;
+        return file.exists();
     }
 
     public Context getContext() {
@@ -120,6 +116,7 @@ public class DatabaseReader {
         return itemKeys;
     }
 
+    //Todo Strategy pattern?
     public int getIndexFromJsonCollection(String titleKey) throws Exception {
         JSONArray content = getAllContents();
         for (int index = 0; index < content.length(); index++) {
