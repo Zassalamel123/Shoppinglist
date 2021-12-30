@@ -4,6 +4,8 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ressourcelists.Strategies.IndexByJsonCollection;
+import ressourcelists.Strategies.JsonIndex;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -116,16 +118,8 @@ public class DatabaseReader {
         return itemKeys;
     }
 
-    //Todo Strategy pattern?
-    public int getIndexFromJsonCollection(String titleKey) throws Exception {
-        JSONArray content = getAllContents();
-        for (int index = 0; index < content.length(); index++) {
-            Object entry = content.opt(index);
-            JSONObject specificContent = new JSONObject(entry.toString());
-            if (specificContent.has(titleKey)) {
-                return index;
-            }
-        }
-        throw new JSONException("Entry not found");
+    public int getIndexFromJsonCollection(String titleKey, JSONArray content) throws Exception {
+        JsonIndex jsonIndex = new JsonIndex(new IndexByJsonCollection());
+        return jsonIndex.getIndex(titleKey, content);
     }
 }

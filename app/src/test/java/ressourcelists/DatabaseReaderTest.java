@@ -95,7 +95,8 @@ public class DatabaseReaderTest {
     @Test
     public void getIndexFromJsonCollection() throws Exception {
         int expected = 1;
-        int actual = databaseReader.getIndexFromJsonCollection(listName2);
+        JSONArray content = databaseReader.getAllContents();
+        int actual = databaseReader.getIndexFromJsonCollection(listName2, content);
         Assertions.assertEquals(expected, actual);
     }
 }

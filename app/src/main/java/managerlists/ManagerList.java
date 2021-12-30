@@ -76,7 +76,8 @@ public class ManagerList {
         JSONObject itemContents = null;
         try {
             setCollectionIfFileExists();
-            index = databaseReader.getIndexFromJsonCollection(titleKey);
+            JSONArray content = getAllContents();
+            index = databaseReader.getIndexFromJsonCollection(titleKey, content);
             itemContents = databaseReader.getItemsByTitleKey(titleKey);
             itemContents.put(itemKey, itemValue);
             databaseWriter.updateItemValue(titleKey, itemContents, index);
@@ -114,7 +115,8 @@ public class ManagerList {
         int index;
         try {
             setJsonCollectionForWriting();
-            index = databaseReader.getIndexFromJsonCollection(titleKey);
+            JSONArray content = getAllContents();
+            index = databaseReader.getIndexFromJsonCollection(titleKey, content);
             databaseWriter.deleteList(index);
         } catch (Exception e) {
             e.printStackTrace();

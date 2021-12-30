@@ -105,7 +105,7 @@ public class ManagerListTest {
                 "    \"" + item1 + "\": true,\n" +
                 "    \"" + item2 + "\": false\n" +
                 "}");
-        when(mockDatabaseReader.getIndexFromJsonCollection(listName)).thenReturn(index);
+        when(mockDatabaseReader.getIndexFromJsonCollection(listName,jsonContent)).thenReturn(index);
         when(mockDatabaseReader.getItemsByTitleKey(listName)).thenReturn(specificContent);
 
         managerList.updateItemValue(listName, item1, true);
