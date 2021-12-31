@@ -4,8 +4,9 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ressourcelists.Strategies.IndexByJsonCollection;
-import ressourcelists.Strategies.JsonIndex;
+import ressourcelists.Strategies.IndexByForLoop;
+import ressourcelists.Strategies.IndexByRecursion;
+import ressourcelists.Strategies.JsonArrayIndex;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class DatabaseReader {
     }
 
     public int getIndexFromJsonCollection(String titleKey, JSONArray content) throws Exception {
-        JsonIndex jsonIndex = new JsonIndex(new IndexByJsonCollection());
-        return jsonIndex.getIndex(titleKey, content);
+        JsonArrayIndex jsonArrayIndex = new JsonArrayIndex(new IndexByRecursion());
+        return jsonArrayIndex.getIndex(titleKey, content);
     }
 }

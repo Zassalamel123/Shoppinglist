@@ -1,12 +1,13 @@
 package ressourcelists.Strategies;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
-public class JsonIndex {
+public class JsonArrayIndex {
 
     private IndexStrategy strategy;
 
-    public JsonIndex(IndexStrategy strategy) {
+    public JsonArrayIndex(IndexStrategy strategy) {
         this.strategy = strategy;
     }
 
@@ -14,7 +15,7 @@ public class JsonIndex {
         this.strategy = strategy;
     }
 
-    public int getIndex(String key, Object jsonObject) throws JSONException {
-        return strategy.getJsonIndex(key, jsonObject);
+    public int getIndex(String key, JSONArray content) throws JSONException {
+        return strategy.getJsonIndex(key, content);
     }
 }

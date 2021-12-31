@@ -4,11 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class IndexByJsonCollection implements IndexStrategy {
+public class IndexByForLoop implements IndexStrategy {
 
     @Override
-    public int getJsonIndex(String key, Object jsonObject) throws JSONException {
-        JSONArray content = (JSONArray) jsonObject;
+    public int getJsonIndex(String key, JSONArray content) throws JSONException {
         for (int index = 0; index < content.length(); index++) {
             Object entry = content.opt(index);
             JSONObject specificContent = new JSONObject(entry.toString());
