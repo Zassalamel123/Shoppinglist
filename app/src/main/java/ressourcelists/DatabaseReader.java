@@ -120,7 +120,7 @@ public class DatabaseReader {
     }
 
     public int getIndexFromJsonCollection(String titleKey, JSONArray content) throws Exception {
-        JsonArrayIndex jsonArrayIndex = new JsonArrayIndex(new IndexByRecursion());
+        JsonArrayIndex jsonArrayIndex = new JsonArrayIndex(new IndexByForLoop());
         return jsonArrayIndex.getIndex(titleKey, content);
     }
 }
