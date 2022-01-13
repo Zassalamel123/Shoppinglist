@@ -139,6 +139,7 @@ public class ListCreationActivity extends AppCompatActivity {
             String title = editText.getText().toString();
 
             ItemFieldError itemFieldError = checkItemFieldErrors();
+//            itemFieldError = new ItemFieldErrorDecorator(itemFieldError, this);
             TitleFieldError titleFieldError = checkTitleErrors(title);
             if (itemFieldError != null) {
                 itemFieldError.toastMessage();

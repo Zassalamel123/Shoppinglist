@@ -17,16 +17,6 @@ public class ManagerList {
         this.databaseWriter = databaseWriter;
     }
 
-    public JSONArray getAllContents() {
-        JSONArray content = new JSONArray();
-        try {
-            content = databaseReader.getAllContents();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return content;
-    }
-
     public JSONObject getItemsByTitleKey(String key) {
         JSONObject items = null;
         try {
@@ -76,7 +66,7 @@ public class ManagerList {
         JSONObject itemContents = null;
         try {
             setCollectionIfFileExists();
-            JSONArray content = getAllContents();
+            JSONArray content = databaseReader.getAllContents();
             index = databaseReader.getIndexFromJsonCollection(titleKey, content);
             itemContents = databaseReader.getItemsByTitleKey(titleKey);
             itemContents.put(itemKey, itemValue);
@@ -115,7 +105,7 @@ public class ManagerList {
         int index;
         try {
             setJsonCollectionForWriting();
-            JSONArray content = getAllContents();
+            JSONArray content = databaseReader.getAllContents();
             index = databaseReader.getIndexFromJsonCollection(titleKey, content);
             databaseWriter.deleteList(index);
         } catch (Exception e) {

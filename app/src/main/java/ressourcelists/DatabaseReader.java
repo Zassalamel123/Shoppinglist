@@ -5,8 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ressourcelists.Strategies.IndexByForLoop;
-import ressourcelists.Strategies.IndexByRecursion;
-import ressourcelists.Strategies.JsonArrayIndex;
+import ressourcelists.Strategies.JsonArrayIndexFinder;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -120,7 +119,7 @@ public class DatabaseReader {
     }
 
     public int getIndexFromJsonCollection(String titleKey, JSONArray content) throws Exception {
-        JsonArrayIndex jsonArrayIndex = new JsonArrayIndex(new IndexByForLoop());
-        return jsonArrayIndex.getIndex(titleKey, content);
+        JsonArrayIndexFinder indexFinder = new JsonArrayIndexFinder(new IndexByForLoop());
+        return indexFinder.getIndex(titleKey, content);
     }
 }

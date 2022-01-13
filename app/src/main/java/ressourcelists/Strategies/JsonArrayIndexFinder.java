@@ -3,11 +3,11 @@ package ressourcelists.Strategies;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class JsonArrayIndex {
+public class JsonArrayIndexFinder {
 
     private IndexStrategy strategy;
 
-    public JsonArrayIndex(IndexStrategy strategy) {
+    public JsonArrayIndexFinder(IndexStrategy strategy) {
         this.strategy = strategy;
     }
 
