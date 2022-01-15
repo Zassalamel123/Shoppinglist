@@ -1,9 +1,9 @@
-package com.example.einkaufslisteapp.Decorators;
+package com.appshoppinglist.Decorators;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
-import com.example.einkaufslisteapp.Errors.ItemFieldError;
+import com.appshoppinglist.Errors.ItemFieldError;
 
 public class SoundPlayerDecorator implements ItemFieldError {
 

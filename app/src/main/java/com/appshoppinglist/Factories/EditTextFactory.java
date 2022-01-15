@@ -1,4 +1,4 @@
-package com.example.einkaufslisteapp.Factories;
+package com.appshoppinglist.Factories;
 
 import android.content.Context;
 import android.view.View;

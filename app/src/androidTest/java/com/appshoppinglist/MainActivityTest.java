@@ -1,10 +1,9 @@
-package com.example.einkaufslisteapp;
+package com.appshoppinglist;
 
 import android.content.Context;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import com.example.einkaufslisteapp.Activities.MainActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,7 @@ public class MainActivityTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.einkaufslisteapp", appContext.getPackageName());
+        assertEquals("com.appshoppinglist", appContext.getPackageName());
         onView(withId(R.id.buttonListeVerwalten)).perform(click());
     }
 }

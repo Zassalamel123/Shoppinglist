@@ -1,4 +1,4 @@
-package com.example.einkaufslisteapp.Errors;
+package com.appshoppinglist.Errors;
 
 public interface ItemFieldError {
 

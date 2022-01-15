@@ -1,9 +1,9 @@
-package com.example.einkaufslisteapp.Factories;
+package com.appshoppinglist.Factories;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageButton;
-import com.example.einkaufslisteapp.R;
+import com.appshoppinglist.R;
 
 public class ImageButtonFactory implements ViewFactory {
 

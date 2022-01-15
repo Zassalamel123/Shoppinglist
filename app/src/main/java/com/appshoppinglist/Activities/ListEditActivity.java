@@ -1,4 +1,4 @@
-package com.example.einkaufslisteapp.Activities;
+package com.appshoppinglist.Activities;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import com.example.einkaufslisteapp.R;
+import com.appshoppinglist.R;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;

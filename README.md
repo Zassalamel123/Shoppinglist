@@ -23,4 +23,20 @@ writing tests with the mockito framework and also establishing a cicd pipeline t
 Also following Clean Code, SOLID, TDD (except for the Activities, because testing these was too new and different for me to apply TDD)
 principles i wanted to write something that is easy to read and understand.
 
-Also for learning purposes the App will be released in Google Play Store soon.
+The app is released in play store as "Simple Einkaufsliste".
+
+**Description in German**
+
+**Short Description**
+
+Eine kostenlose Einkaufsliste für Android ohne Werbung.
+
+**Full Description**
+
+Simple Einkaufsliste ist eine App zur Erstellung und Verwaltung von Einkaufslisten. Sie ist sehr einfach gehalten.
+
+Mithilfe des Buttons Liste erstellen wird man direkt auf das Menü für die Erstellung einer Einkaufsliste weitergeleitet.
+Hier kann der Titel erfasst werden und die Lebensmittel/Gegenstände eingetragen werden. 
+Mit dem Speichersymbol wird die Liste erstellt und erscheint anschließend im Verwaltungsmenü. Danach kann
+die Liste bearbeitet werden, um die eingekauften Gegenstände/Lebensmittel abzuhaken. 
+Die Änderungen werden direkt abgespeichert und sie können die App problemlos schließen. Es werden auch keine Berechtigungen benötigt.

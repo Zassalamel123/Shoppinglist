@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".Activities.ListEditActivity" android:id="@+id/listEditConstraintLayout">
+            tools:context="com.appshoppinglist.Activities.ListEditActivity" android:id="@+id/listEditConstraintLayout">
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

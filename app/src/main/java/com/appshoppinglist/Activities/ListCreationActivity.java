@@ -1,8 +1,7 @@
-package com.example.einkaufslisteapp.Activities;
+package com.appshoppinglist.Activities;
 
-import com.example.einkaufslisteapp.*;
-import com.example.einkaufslisteapp.Errors.*;
-import com.example.einkaufslisteapp.Factories.EditTextFactory;
+import com.appshoppinglist.Errors.*;
+import com.appshoppinglist.Factories.EditTextFactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
@@ -13,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
+import com.appshoppinglist.R;
 
 import java.util.ArrayList;
 import java.util.List;

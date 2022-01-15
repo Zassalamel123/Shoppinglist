@@ -1,14 +1,14 @@
-package com.example.einkaufslisteapp.Activities;
+package com.appshoppinglist.Activities;
 
-import com.example.einkaufslisteapp.Factories.ImageButtonFactory;
-import com.example.einkaufslisteapp.Factories.TextViewFactory;
+import com.appshoppinglist.Factories.ImageButtonFactory;
+import com.appshoppinglist.Factories.TextViewFactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import com.example.einkaufslisteapp.R;
+import com.appshoppinglist.R;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;

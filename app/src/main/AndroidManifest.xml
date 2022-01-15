@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.einkaufslisteapp">
+          package="com.appshoppinglist">
 
     <application
             android:allowBackup="true"
@@ -10,17 +10,17 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.Einkaufsliste">
         <activity
-                android:name=".Activities.ListEditActivity"
-                android:parentActivityName=".Activities.ManagerListActivity">
+                android:name="com.appshoppinglist.Activities.ListEditActivity"
+                android:parentActivityName="com.appshoppinglist.Activities.ManagerListActivity">
         </activity>
         <activity
-                android:name=".Activities.ListCreationActivity"
-                android:parentActivityName=".Activities.ManagerListActivity">
+                android:name="com.appshoppinglist.Activities.ListCreationActivity"
+                android:parentActivityName="com.appshoppinglist.Activities.ManagerListActivity">
         </activity>
         <activity
-                android:name=".Activities.ManagerListActivity"
-                android:parentActivityName=".Activities.MainActivity"/>
-        <activity android:name=".Activities.MainActivity">
+                android:name="com.appshoppinglist.Activities.ManagerListActivity"
+                android:parentActivityName="com.appshoppinglist.Activities.MainActivity"/>
+        <activity android:name="com.appshoppinglist.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

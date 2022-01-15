@@ -1,10 +1,10 @@
-package com.example.einkaufslisteapp.Activities;
+package com.appshoppinglist.Activities;
 
 import android.content.Intent;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.example.einkaufslisteapp.R;
+import com.appshoppinglist.R;
 
 public class MainActivity extends AppCompatActivity {
 
