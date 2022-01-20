@@ -95,11 +95,11 @@ public class ManagerListTest {
     }
 
     @Test
-    public void getAllContents() throws JSONException, FileNotFoundException {
+    public void getAllContents() throws Exception {
         databaseReader.setFilePath(FILE_TEST_SAVE_SINGLE_LIST);
         when(mockContext.openFileInput(FILE_TEST_SAVE_SINGLE_LIST)).thenReturn(new FileInputStream(FILE_TEST_SAVE_SINGLE_LIST));
 
-        JSONArray actual = managerList.getAllContents();
+        JSONArray actual = databaseReader.getAllContents();
         String expected = "[{" + LIST_NAME_SATURN + ":{" + ITEM_TOMATO + ":false," + ITEM_KIWI + ":false}}]";
         JSONAssert.assertEquals(expected, actual, true);
     }
