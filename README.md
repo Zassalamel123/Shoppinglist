@@ -23,7 +23,8 @@ writing tests with the mockito framework and also establishing a cicd pipeline t
 Also following Clean Code, SOLID, TDD (except for the Activities, because testing these was too new and different for me to apply TDD)
 principles i wanted to write something that is easy to read and understand.
 
-The app is released in play store as "Simple Einkaufsliste".
+**Link**
+https://play.google.com/store/apps/details?id=com.appshoppinglist
 
 **Description in German**
 

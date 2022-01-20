@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import com.appshoppinglist.Factories.ViewFactory;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
 import ressourcelists.DatabaseWriter;
@@ -21,7 +22,6 @@ public class ListCreationActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     private List<EditText> editTextItems = new ArrayList<>();
-    private EditTextFactory editTextFactory = new EditTextFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +52,14 @@ public class ListCreationActivity extends AppCompatActivity {
     private void addItem() {
         ImageView addItem = findViewById(R.id.toolBarAdd);
         addItem.setOnClickListener(v -> {
-            EditText item = generateItemField();
+            EditText item = generateItemField(new EditTextFactory());
             applyItemToView(item);
             saveEditTextItemToList(item);
         });
     }
 
-    private EditText generateItemField() {
-        return (EditText) editTextFactory.create(this);
+    private EditText generateItemField(ViewFactory viewFactory) {
+        return (EditText) viewFactory.create(this);
     }
 
     private void applyItemToView(EditText item) {

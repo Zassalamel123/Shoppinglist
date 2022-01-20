@@ -8,6 +8,7 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import com.appshoppinglist.Factories.ViewFactory;
 import com.appshoppinglist.R;
 import managerlists.ManagerList;
 import ressourcelists.DatabaseReader;
@@ -20,8 +21,6 @@ public class ManagerListActivity extends AppCompatActivity {
 
     private final ManagerList managerList = new ManagerList(new DatabaseReader(this), new DatabaseWriter(this));
     public static final String TITLE_NAME = "com.example.einkaufslisteapp.MESSAGE";
-    private TextViewFactory textViewFactory = new TextViewFactory();
-    private ImageButtonFactory imageButtonFactory = new ImageButtonFactory();
     private List<ImageButton> editListImageButtons = new ArrayList<>();
     private List<TextView> textViews = new ArrayList<>();
     private int index = 0;
@@ -112,13 +111,13 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
     private void addImageButtonToEditSpecificList() {
-        ImageButton imageButton = generateEditListImageView();
+        ImageButton imageButton = generateEditListImageView(new ImageButtonFactory());
         applyEditImageButtonToView(imageButton);
         saveEditListImageButtonsToCollection(imageButton);
     }
 
-    private ImageButton generateEditListImageView() {
-        return (ImageButton) imageButtonFactory.create(this);
+    private ImageButton generateEditListImageView(ViewFactory viewFactory) {
+        return (ImageButton) viewFactory.create(this);
     }
 
     private void applyEditImageButtonToView(ImageButton imageButton) {
@@ -145,14 +144,14 @@ public class ManagerListActivity extends AppCompatActivity {
     }
 
     private void addTextViewTitle(String key) {
-        TextView textView = generateTextView(key);
+        TextView textView = generateTextView(key, new TextViewFactory());
         applyTextViewToView(textView);
         saveTextViewToCollection(textView);
         applyListenerEditListButton(textView);
     }
 
-    private TextView generateTextView(String key) {
-        TextView textView = (TextView) textViewFactory.create(this);
+    private TextView generateTextView(String key, ViewFactory viewFactory) {
+        TextView textView = (TextView) viewFactory.create(this);
         textView.setText(key);
         return textView;
     }
