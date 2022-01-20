@@ -48,13 +48,6 @@ public class ManagerListTest {
     }
 
     @Test
-    public void getJsonContent() throws JSONException {
-        JSONArray actual = managerList.getAllContents();
-        String expected = "[{" + listName + ":{" + item1 + ":false," + item2 + ":false}}]";
-        JSONAssert.assertEquals(expected, actual, true);
-    }
-
-    @Test
     public void getKeys() throws Exception {
         when(mockDatabaseReader.getTitleKeys()).thenReturn(keys);
 
